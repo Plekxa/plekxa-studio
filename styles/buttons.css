@@ -1,0 +1,23 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  color: var(--text-inverse);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), #ee7a7b);
+  box-shadow: 0 10px 25px rgba(217, 101, 121, 0.22);
+}
+
+.button-small {
+  padding: 10px 15px;
+}
+
+.button-secondary {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}

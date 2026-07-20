@@ -1,0 +1,93 @@
+:root {
+  color-scheme: light;
+
+  --accent: #d96579;
+  --accent-dark: #b94660;
+  --peach: #f5b199;
+
+  --bg: #fffaf7;
+  --bg-soft: #fff7f3;
+  --surface: #ffffff;
+  --surface-soft: #fff1eb;
+  --surface-elevated: rgba(255, 255, 255, 0.95);
+
+  --text: #17141c;
+  --text-muted: #6f6873;
+  --text-subtle: #9a8f95;
+  --text-inverse: #ffffff;
+
+  --border: #eadfda;
+  --shadow: 0 20px 50px rgba(103, 57, 70, 0.12);
+  --shadow-soft: 0 12px 35px rgba(84, 55, 63, 0.08);
+
+  --header-bg: rgba(255, 250, 247, 0.94);
+  --sidebar-bg: #fffaf7;
+  --sidebar-hover: #fff1eb;
+
+  --player-bg: #fffaf7;
+--player-text: #17141c;
+--player-muted: #6f6873;
+--player-track: #eadfda;
+
+--footer-bg: #fffaf7;
+--footer-text: #17141c;
+--footer-muted: #6f6873;
+--footer-subtle: #9a8f95;
+--footer-border: #eadfda;
+
+  --radius-sm: 11px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --sidebar-width: 240px;
+  --player-height: 86px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg: #111014;
+    --bg-soft: #151217;
+    --surface: #1a171d;
+    --surface-soft: #241f27;
+    --surface-elevated: rgba(26, 23, 29, 0.96);
+
+    --text: #f7f2f5;
+    --text-muted: #aaa1aa;
+    --text-subtle: #7f7680;
+
+    --border: #2b2630;
+    --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+    --shadow-soft: 0 12px 35px rgba(0, 0, 0, 0.20);
+
+    --header-bg: rgba(17, 16, 20, 0.94);
+    --sidebar-bg: #151217;
+    --sidebar-hover: #27222b;
+
+    --player-bg: #0c0b0e;
+    --player-text: #ffffff;
+    --player-muted: #aaa1aa;
+    --player-track: #3a343d;
+
+    --footer-bg: #0c0b0e;
+    --footer-text: #ffffff;
+    --footer-muted: #b9b0ba;
+    --footer-subtle: #8f858f;
+    --footer-border: #29232b;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --player-bg: #fffaf7;
+    --player-text: #17141c;
+    --player-muted: #6f6873;
+    --player-track: #eadfda;
+
+    --footer-bg: #fffaf7;
+    --footer-text: #17141c;
+    --footer-muted: #6f6873;
+    --footer-subtle: #9a8f95;
+    --footer-border: #eadfda;
+  }
+}

@@ -1,0 +1,37 @@
+.footer {
+  padding: 36px 0 110px;
+  color: var(--text-muted);
+  background: var(--bg);
+  border-top: none;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 50px;
+}
+
+.footer h3 {
+  font-size: 14px;
+}
+
+.footer p,
+.footer a {
+  display: block;
+  margin: 0 0 10px;
+  color: var(--footer-muted);
+  font-size: 14px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+  padding-top: 22px;
+  color: var(--footer-subtle);
+  border-top: 1px solid var(--footer-border);
+  font-size: 12px;
+}
+.footer-brand img {
+  width: 120px;
+  height: auto;
+}

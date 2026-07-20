@@ -1,0 +1,144 @@
+.player-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: var(--sidebar-width);
+  z-index: 999;
+  height: var(--player-height);
+  display: grid;
+  grid-template-columns: 300px 1fr 220px;
+  align-items: center;
+  padding: 0 20px;
+  color: var(--player-text);
+  background: color-mix(in srgb, var(--player-bg) 94%, transparent);
+  border-top: none;
+  box-shadow: 0 -1px 0 color-mix(in srgb, var(--border) 45%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.player-current {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.player-artwork {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7f5af0, #2cb67d);
+}
+
+.player-details {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-details strong,
+.player-details span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-details strong {
+  color: var(--player-text);
+  font-size: 14px;
+}
+
+.player-details span,
+.player-progress span {
+  color: var(--player-muted);
+}
+
+.player-details span {
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.player-centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.player-main-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  color: var(--player-bg);
+  background: var(--player-text);
+  cursor: pointer;
+}
+
+.player-icon {
+  border: none;
+  color: var(--player-text);
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.player-icon:hover {
+  opacity: 1;
+}
+
+.player-progress {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-progress span {
+  font-size: 11px;
+}
+
+.player-progress-track,
+.volume-track {
+  overflow: hidden;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--player-track);
+}
+
+.player-progress-track {
+  flex: 1;
+}
+
+.player-progress-value,
+.volume-value {
+  height: 100%;
+  background: var(--player-text);
+}
+
+.player-progress-value {
+  width: 35%;
+}
+
+.player-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.volume-track {
+  width: 78px;
+}
+
+.volume-value {
+  width: 55%;
+}
