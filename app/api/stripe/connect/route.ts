@@ -6,6 +6,11 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 function getStripeClient() {
+    console.log("Stripe key exists:", !!process.env.STRIPE_SECRET_KEY);
+console.log(
+  "Stripe key prefix:",
+  process.env.STRIPE_SECRET_KEY?.slice(0, 8)
+);
   const secretKey = process.env.STRIPE_SECRET_KEY;
 
   if (!secretKey || !secretKey.startsWith("sk_")) {
