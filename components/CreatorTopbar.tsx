@@ -1,12 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Bell,
-  CircleHelp,
-  ExternalLink,
-  UserRound,
-} from "lucide-react";
+import { Bell, CircleHelp, ExternalLink } from "lucide-react";
 
 type CreatorTopbarProps = {
   fullName?: string | null;
@@ -28,55 +23,48 @@ export function CreatorTopbar({
       .toUpperCase() || "CR";
 
   return (
-    <header className="creator-topbar">
-      <div className="creator-topbar-copy">
+    <header className="studio-topbar">
+      <div className="studio-topbar-title">
         <span>Creator Studio</span>
-        <strong>
-          Welcome back{fullName ? `, ${fullName}` : ""}
-        </strong>
+        <strong>{fullName ? `Welcome, ${fullName}` : "Welcome"}</strong>
       </div>
 
-      <div className="creator-topbar-actions">
+      <div className="studio-topbar-actions">
         <a
           href="https://plekxa.com/contact?category=creator-support"
           target="_blank"
           rel="noreferrer"
-          className="creator-topbar-icon"
-          aria-label="Contact Creator Support"
-          title="Creator Support"
+          aria-label="Help"
+          className="studio-topbar-icon"
         >
-          <CircleHelp size={19} />
+          <CircleHelp size={18} />
         </a>
 
         <button
           type="button"
-          className="creator-topbar-icon"
           aria-label="Notifications"
-          title="Notifications"
+          className="studio-topbar-icon"
         >
-          <Bell size={19} />
+          <Bell size={18} />
         </button>
 
         <a
           href="https://plekxa.com"
           target="_blank"
           rel="noreferrer"
-          className="creator-topbar-site-link"
+          className="studio-topbar-site"
         >
           Visit Plekxa
-          <ExternalLink size={15} />
+          <ExternalLink size={14} />
         </a>
 
         <Link
           href="/creator-studio/profile"
-          className="creator-topbar-profile"
+          className="studio-topbar-profile"
         >
-          <div className="creator-topbar-avatar">
+          <div className="studio-topbar-avatar">
             {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt={fullName || "Creator"}
-              />
+              <img src={avatarUrl} alt={fullName || "Creator"} />
             ) : (
               <span>{initials}</span>
             )}
@@ -84,13 +72,8 @@ export function CreatorTopbar({
 
           <div>
             <strong>{fullName || "Creator"}</strong>
-            <span>{creatorType || "Plekxa creator"}</span>
+            <span>{creatorType || "Creator"}</span>
           </div>
-
-          <UserRound
-            className="creator-topbar-profile-icon"
-            size={16}
-          />
         </Link>
       </div>
     </header>

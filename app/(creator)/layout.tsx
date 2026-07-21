@@ -26,19 +26,17 @@ export default async function CreatorLayout({
     .maybeSingle();
 
   return (
-    <div className="creator-app-shell">
+    <div className="studio-shell">
       <CreatorSidebar />
 
-      <div className="creator-app-main">
+      <div className="studio-main">
         <CreatorTopbar
           fullName={profile?.full_name}
           avatarUrl={profile?.avatar_url}
           creatorType={profile?.creator_type}
         />
 
-        <main className="creator-app-content">
-          {children}
-        </main>
+        <main className="studio-content">{children}</main>
       </div>
     </div>
   );

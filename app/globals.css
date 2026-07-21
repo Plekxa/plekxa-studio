@@ -1670,3 +1670,602 @@
   font-weight: 800;
   text-decoration: none;
 }
+
+/* =========================================================
+   CREATOR STUDIO FINAL CLEANUP
+   Keep this at the very bottom of globals.css
+   ========================================================= */
+
+.studio-shell {
+  min-height: 100vh;
+  background: #f8f5f3;
+  color: #1d1920;
+}
+
+.studio-main {
+  min-width: 0;
+  min-height: 100vh;
+  margin-left: 248px;
+}
+
+.studio-content {
+  min-height: calc(100vh - 72px);
+  padding: 32px;
+}
+
+.studio-sidebar {
+  width: 248px;
+  height: 100vh;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-right: 1px solid #e9e2e5;
+  background: #fff;
+}
+
+.studio-sidebar-brand {
+  padding: 28px 24px 24px;
+}
+
+.studio-sidebar-brand a {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.studio-sidebar-brand strong {
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -1.2px;
+}
+
+.studio-sidebar-brand span {
+  margin-top: 6px;
+  color: #8b818d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.studio-sidebar-nav {
+  display: grid;
+  gap: 24px;
+  padding: 8px 14px 24px;
+}
+
+.studio-sidebar-section {
+  margin: 0;
+}
+
+.studio-sidebar-section > p {
+  margin: 0 10px 8px;
+  color: #a59ba7;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+}
+
+.studio-sidebar-section > div {
+  display: grid;
+  gap: 4px;
+}
+
+.studio-sidebar-link {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #675f69;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.studio-sidebar-link:hover {
+  background: #f7f2f1;
+  color: #211c23;
+}
+
+.studio-sidebar-link.is-active {
+  background: #fff0f2;
+  color: #cf415e;
+}
+
+.studio-sidebar-button {
+  width: 100%;
+}
+
+.studio-sidebar-footer {
+  display: grid;
+  gap: 4px;
+  margin-top: auto;
+  padding: 18px 14px 22px;
+  border-top: 1px solid #eee7ea;
+}
+
+.studio-topbar {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 0 32px;
+  border-bottom: 1px solid #e9e2e5;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+}
+
+.studio-topbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.studio-topbar-title span {
+  color: #9a909c;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.studio-topbar-title strong {
+  font-size: 17px;
+}
+
+.studio-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.studio-topbar-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e5dde1;
+  border-radius: 11px;
+  background: white;
+  color: #332d35;
+  cursor: pointer;
+}
+
+.studio-topbar-site {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 13px;
+  border-radius: 11px;
+  background: #211d24;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.studio-topbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 7px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.studio-topbar-avatar,
+.studio-profile-overview-avatar {
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e15a72;
+  color: white;
+  font-weight: 900;
+}
+
+.studio-topbar-avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 12px;
+}
+
+.studio-topbar-avatar img,
+.studio-profile-overview-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.studio-topbar-profile > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.studio-topbar-profile strong {
+  font-size: 12px;
+}
+
+.studio-topbar-profile span {
+  color: #8c828e;
+  font-size: 10px;
+}
+
+.studio-page {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+.studio-page-heading {
+  margin-bottom: 24px;
+}
+
+.studio-page-heading > span,
+.studio-panel-header span {
+  color: #cf405d;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.studio-page-heading h1 {
+  margin: 8px 0 0;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.studio-page-heading p {
+  max-width: 680px;
+  margin: 13px 0 0;
+  color: #766d78;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.studio-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.studio-stats-grid article,
+.studio-panel {
+  border: 1px solid #ebe4e7;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 14px 38px rgba(45, 32, 48, 0.04);
+}
+
+.studio-stats-grid article {
+  min-height: 132px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.studio-stats-grid article span {
+  color: #756d77;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.studio-stats-grid article strong {
+  margin-top: 16px;
+  font-size: 28px;
+  letter-spacing: -1.3px;
+}
+
+.studio-stats-grid article small {
+  margin-top: auto;
+  color: #9b919d;
+  font-size: 11px;
+}
+
+.studio-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.studio-panel {
+  padding: 24px;
+}
+
+.studio-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.studio-panel-header h2 {
+  margin: 6px 0 0;
+  font-size: 22px;
+  letter-spacing: -0.7px;
+}
+
+.studio-panel-header > a {
+  color: #cf405d;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.studio-empty-state {
+  min-height: 225px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.studio-empty-state.compact {
+  min-height: 210px;
+}
+
+.studio-empty-state h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.studio-empty-state p {
+  max-width: 520px;
+  margin: 9px 0 16px;
+  color: #7b727d;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.studio-empty-state a {
+  color: #cf405d;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.studio-profile-summary {
+  margin-top: 12px;
+}
+
+.studio-profile-overview {
+  display: grid;
+  grid-template-columns: auto minmax(180px, 1fr) minmax(360px, 1.8fr);
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.studio-profile-overview-avatar {
+  width: 58px;
+  height: 58px;
+  font-size: 15px;
+}
+
+.studio-profile-overview > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.studio-profile-overview > div:nth-child(2) strong {
+  font-size: 16px;
+}
+
+.studio-profile-overview > div:nth-child(2) span {
+  color: #827985;
+  font-size: 12px;
+}
+
+.studio-profile-overview dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0;
+}
+
+.studio-profile-overview dl div {
+  padding: 14px;
+  border-radius: 13px;
+  background: #f8f4f3;
+}
+
+.studio-profile-overview dt {
+  color: #948a96;
+  font-size: 10px;
+}
+
+.studio-profile-overview dd {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.studio-mobile-header,
+.studio-mobile-drawer,
+.studio-mobile-backdrop {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  .studio-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .studio-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-profile-overview {
+    grid-template-columns: auto 1fr;
+  }
+
+  .studio-profile-overview dl {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .studio-sidebar-desktop {
+    display: none;
+  }
+
+  .studio-main {
+    margin-left: 0;
+  }
+
+  .studio-content {
+    padding: 22px 16px;
+  }
+
+  .studio-mobile-header {
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid #e8e1e4;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+  }
+
+  .studio-mobile-header > a {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .studio-mobile-header strong {
+    line-height: 1;
+  }
+
+  .studio-mobile-header span {
+    margin-top: 4px;
+    color: #948a96;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .studio-mobile-header button,
+  .studio-mobile-close {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #e4dce0;
+    border-radius: 11px;
+    background: white;
+    color: #211d24;
+  }
+
+  .studio-topbar {
+    min-height: 62px;
+    padding: 0 16px;
+  }
+
+  .studio-topbar-title,
+  .studio-topbar-site,
+  .studio-topbar-profile > div:last-child {
+    display: none;
+  }
+
+  .studio-topbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .studio-mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 79;
+    display: block;
+    visibility: hidden;
+    border: 0;
+    background: rgba(20, 16, 22, 0.45);
+    opacity: 0;
+    transition: 180ms ease;
+  }
+
+  .studio-mobile-backdrop.is-visible {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .studio-mobile-drawer {
+    width: min(84vw, 310px);
+    height: 100dvh;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 80;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-right: 1px solid #e8e1e4;
+    background: white;
+    box-shadow: 24px 0 60px rgba(28, 20, 31, 0.16);
+    transform: translateX(-105%);
+    transition: transform 220ms ease;
+  }
+
+  .studio-mobile-drawer.is-open {
+    transform: translateX(0);
+  }
+
+  .studio-mobile-close {
+    position: absolute;
+    top: 17px;
+    right: 15px;
+    z-index: 2;
+  }
+
+  .studio-mobile-drawer .studio-sidebar-brand {
+    padding-right: 72px;
+  }
+}
+
+@media (max-width: 600px) {
+  .studio-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-page-heading h1 {
+    font-size: 39px;
+    letter-spacing: -2px;
+  }
+
+  .studio-profile-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-profile-overview-avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .studio-profile-overview dl {
+    grid-template-columns: 1fr;
+  }
+}
