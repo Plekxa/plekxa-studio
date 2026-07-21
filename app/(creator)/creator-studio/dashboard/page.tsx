@@ -133,6 +133,81 @@ export default async function CreatorDashboardPage() {
             <p>There are no open opportunities at the moment.</p>
           )}
         </section>
+<section className="creator-dashboard-hero">
+  <div>
+    <span>Creator overview</span>
+    <h1>Your work, earnings and opportunities.</h1>
+    <p>
+      Track current projects, applications, asset activity and creator
+      performance from one place.
+    </p>
+  </div>
+</section>
+
+<section className="creator-dashboard-stats">
+  <article>
+    <span>Active projects</span>
+    <strong>0</strong>
+    <small>Current collaborations</small>
+  </article>
+
+  <article>
+    <span>Open applications</span>
+    <strong>0</strong>
+    <small>Awaiting review</small>
+  </article>
+
+  <article>
+    <span>Pending earnings</span>
+    <strong>£0.00</strong>
+    <small>Fees, royalties and PPR</small>
+  </article>
+
+  <article>
+    <span>Creator rating</span>
+    <strong>—</strong>
+    <small>No ratings yet</small>
+  </article>
+</section>
+
+<section className="creator-dashboard-grid">
+  <article className="creator-dashboard-panel">
+    <div className="creator-dashboard-panel-heading">
+      <div>
+        <span>Current work</span>
+        <h2>Active projects</h2>
+      </div>
+
+      <a href="/creator-studio/active-projects">View all</a>
+    </div>
+
+    <div className="creator-empty-state">
+      <h3>No active projects yet</h3>
+      <p>
+        When you join a Plekxa project, milestones and submissions will appear
+        here.
+      </p>
+      <a href="/creator-studio/projects">Browse projects</a>
+    </div>
+  </article>
+
+  <article className="creator-dashboard-panel">
+    <div className="creator-dashboard-panel-heading">
+      <div>
+        <span>Activity</span>
+        <h2>Recent updates</h2>
+      </div>
+    </div>
+
+    <div className="creator-empty-state">
+      <h3>No recent activity</h3>
+      <p>
+        Application updates, project messages and asset reviews will appear
+        here.
+      </p>
+    </div>
+  </article>
+</section>
 
         <section className="creator-profile-panel">
           <div>
@@ -146,3 +221,4 @@ export default async function CreatorDashboardPage() {
     </section>
   );
 }
+

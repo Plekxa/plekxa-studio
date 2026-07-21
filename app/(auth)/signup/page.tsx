@@ -117,29 +117,32 @@ export default function SignupPage() {
   />
 
   <span>
-    I agree to the{" "}
-    <Link
-      href="/terms"
-      target="_blank"
-    >
-      Terms of Use
-    </Link>
-    ,{" "}
-    <Link
-      href="/privacy"
-      target="_blank"
-    >
-      Privacy Policy
-    </Link>{" "}
-    and{" "}
-    <Link
-      href="/cookies"
-      target="_blank"
-    >
-      Cookie Policy
-    </Link>
-    .
-  </span>
+  I agree to the{" "}
+  <a
+    href="https://plekxa.com/terms"
+    target="_blank"
+    rel="noreferrer"
+  >
+    Terms of Use
+  </a>
+  ,{" "}
+  <a
+    href="https://plekxa.com/privacy"
+    target="_blank"
+    rel="noreferrer"
+  >
+    Privacy Policy
+  </a>{" "}
+  and{" "}
+  <a
+    href="https://plekxa.com/cookies"
+    target="_blank"
+    rel="noreferrer"
+  >
+    Cookie Policy
+  </a>
+  .
+</span>
 </label>
 
           <button
