@@ -1,0 +1,236 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+
+type EarningsSummary = {
+  lifetime_earnings: number | string;
+  available_to_withdraw: number | string;
+  processing: number | string;
+  total_paid: number | string;
+  accrued: number | string;
+};
+
+type EarningRow = {
+  id: string;
+  description: string | null;
+  earning_type: string;
+  amount: number | string;
+  currency: string;
+  percentage_applied: number | string | null;
+  revenue_basis_amount: number | string | null;
+  status: string;
+  created_at: string;
+  experiences:
+    | {
+        title: string;
+      }
+    | {
+        title: string;
+      }[]
+    | null;
+  creator_assets:
+    | {
+        title: string;
+      }
+    | {
+        title: string;
+      }[]
+    | null;
+};
+
+function money(value: number | string, currency = "GBP") {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency,
+  }).format(Number(value || 0));
+}
+
+function relationTitle(
+  relation:
+    | { title: string }
+    | { title: string }[]
+    | null
+    | undefined
+) {
+  if (!relation) return "—";
+  return Array.isArray(relation)
+    ? relation[0]?.title ?? "—"
+    : relation.title;
+}
+
+export default async function EarningsPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: summaryRows } = await supabase.rpc(
+    "get_my_earnings_summary"
+  );
+
+  const summary = (summaryRows?.[0] ?? {
+    lifetime_earnings: 0,
+    available_to_withdraw: 0,
+    processing: 0,
+    total_paid: 0,
+    accrued: 0,
+  }) as EarningsSummary;
+
+  const { data: earnings, error } = await supabase
+    .from("creator_earnings")
+    .select(`
+      id,
+      description,
+      earning_type,
+      amount,
+      currency,
+      percentage_applied,
+      revenue_basis_amount,
+      status,
+      created_at,
+      experiences (
+        title
+      ),
+      creator_assets (
+        title
+      )
+    `)
+    .eq("creator_id", user.id)
+    .order("created_at", { ascending: false });
+
+  return (
+    <div className="studio-page">
+      <section className="studio-page-heading">
+        <span>Finance</span>
+        <h1>Earnings</h1>
+        <p>
+          See revenue linked to your approved assets, royalty
+          participation and payout status.
+        </p>
+      </section>
+
+      <section className="studio-stats-grid">
+        <article>
+          <span>Lifetime earnings</span>
+          <strong>{money(summary.lifetime_earnings)}</strong>
+          <small>All recorded creator earnings</small>
+        </article>
+
+        <article>
+          <span>Available</span>
+          <strong>{money(summary.available_to_withdraw)}</strong>
+          <small>Approved for payout</small>
+        </article>
+
+        <article>
+          <span>Processing</span>
+          <strong>{money(summary.processing)}</strong>
+          <small>Sent to the payout provider</small>
+        </article>
+
+        <article>
+          <span>Total paid</span>
+          <strong>{money(summary.total_paid)}</strong>
+          <small>Successfully delivered</small>
+        </article>
+      </section>
+
+      <section className="studio-panel studio-earnings-panel">
+        <div className="studio-panel-header">
+          <div>
+            <span>Ledger</span>
+            <h2>Earning activity</h2>
+          </div>
+
+          <Link href="/settings/payments">
+            Manage payouts
+          </Link>
+        </div>
+
+        {error ? (
+          <p className="studio-settings-message">
+            {error.message}
+          </p>
+        ) : null}
+
+        {!earnings?.length ? (
+          <div className="studio-empty-state">
+            <h3>No earnings recorded yet</h3>
+            <p>
+              Approved project fees, royalties and PPR activity
+              will appear here.
+            </p>
+          </div>
+        ) : (
+          <div className="studio-earnings-table-wrap">
+            <table className="studio-earnings-table">
+              <thead>
+                <tr>
+                  <th>Experience</th>
+                  <th>Asset</th>
+                  <th>Basis</th>
+                  <th>Share</th>
+                  <th>Your cut</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {(earnings as EarningRow[]).map((earning) => (
+                  <tr key={earning.id}>
+                    <td>
+                      {relationTitle(earning.experiences)}
+                    </td>
+
+                    <td>
+                      {relationTitle(earning.creator_assets)}
+                    </td>
+
+                    <td>
+                      {earning.revenue_basis_amount
+                        ? money(
+                            earning.revenue_basis_amount,
+                            earning.currency
+                          )
+                        : "—"}
+                    </td>
+
+                    <td>
+                      {earning.percentage_applied !== null
+                        ? `${Number(
+                            earning.percentage_applied
+                          )}%`
+                        : "—"}
+                    </td>
+
+                    <td>
+                      <strong>
+                        {money(
+                          earning.amount,
+                          earning.currency
+                        )}
+                      </strong>
+                    </td>
+
+                    <td>
+                      <span
+                        className={`studio-ledger-status is-${earning.status}`}
+                      >
+                        {earning.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}

@@ -17,6 +17,14 @@ import {
   UserRound,
   X,
 } from "lucide-react";
+
+import {
+  BadgePoundSterling,
+  FileCheck2,
+  Images,
+  ReceiptText,
+} from "lucide-react";
+
 import { createClient } from "@/lib/supabase/client";
 
 const navSections = [
@@ -56,6 +64,9 @@ const navSections = [
     ],
   },
   {
+    
+
+    
     label: "Workspace",
     items: [
       {
@@ -68,6 +79,28 @@ const navSections = [
         label: "Profile",
         icon: UserRound,
       },
+
+      {
+  href: "/work",
+  label: "Completed work",
+  icon: FileCheck2,
+},
+{
+  href: "/contracts",
+  label: "Contracts",
+  icon: ReceiptText,
+},
+{
+  href: "/experiences",
+  label: "My experiences",
+  icon: Images,
+},
+{
+  href: "/earnings",
+  label: "Earnings",
+  icon: BadgePoundSterling,
+},
+
     ],
   },
 ];
