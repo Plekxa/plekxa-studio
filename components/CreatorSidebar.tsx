@@ -24,7 +24,7 @@ const navSections = [
     label: "Overview",
     items: [
       {
-        href: "/creator-studio/dashboard",
+        href: "/dashboard",
         label: "Dashboard",
         icon: Gauge,
       },
@@ -34,22 +34,22 @@ const navSections = [
     label: "Opportunities",
     items: [
       {
-        href: "/creator-studio/projects",
+        href: "/projects",
         label: "Browse projects",
         icon: BriefcaseBusiness,
       },
       {
-        href: "/creator-studio/applications",
+        href: "/applications",
         label: "Applications",
         icon: FileText,
       },
       {
-        href: "/creator-studio/pitch",
+        href: "/pitch",
         label: "Pitch an idea",
         icon: Lightbulb,
       },
       {
-        href: "/creator-studio/proposals",
+        href: "/proposals",
         label: "Proposals",
         icon: FolderKanban,
       },
@@ -59,12 +59,12 @@ const navSections = [
     label: "Workspace",
     items: [
       {
-        href: "/creator-studio/active-projects",
+        href: "/active-projects",
         label: "Active projects",
         icon: ListChecks,
       },
       {
-        href: "/creator-studio/profile",
+        href: "/profile",
         label: "Profile",
         icon: UserRound,
       },
@@ -109,7 +109,7 @@ export function CreatorSidebar() {
   const content = (
     <>
       <div className="studio-sidebar-brand">
-        <Link href="/creator-studio/dashboard">
+        <Link href="/dashboard">
           <strong>Plekxa</strong>
           <span>Creator Studio</span>
         </Link>
@@ -156,9 +156,9 @@ export function CreatorSidebar() {
         </a>
 
         <Link
-          href="/creator-studio/settings"
+          href="/settings"
           className={
-            isActive("/creator-studio/settings")
+            isActive("/settings")
               ? "studio-sidebar-link is-active"
               : "studio-sidebar-link"
           }
@@ -182,7 +182,7 @@ export function CreatorSidebar() {
   return (
     <>
       <header className="studio-mobile-header">
-        <Link href="/creator-studio/dashboard">
+        <Link href="/dashboard">
           <strong>Plekxa</strong>
           <span>Creator Studio</span>
         </Link>

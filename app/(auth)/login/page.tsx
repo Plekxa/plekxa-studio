@@ -30,7 +30,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/creator-studio/dashboard");
+    router.push("/dashboard");
     router.refresh();
   }
 

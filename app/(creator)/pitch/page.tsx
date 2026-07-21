@@ -53,7 +53,7 @@ export default function PitchProjectPage() {
       return;
     }
 
-    router.push("/creator-studio/proposals");
+    router.push("/proposals");
     router.refresh();
   }
 
@@ -61,7 +61,7 @@ export default function PitchProjectPage() {
     <main className="creator-pitch-page">
       <div className="container">
         <div className="creator-pitch-heading">
-          <Link href="/creator-studio/dashboard">
+          <Link href="/dashboard">
             ← Back to dashboard
           </Link>
 

@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <main className="creator-project-page">
       <div className="container creator-project-layout">
         <section className="creator-project-details">
-          <Link className="creator-back-link" href="/creator-studio/dashboard">
+          <Link className="creator-back-link" href="/dashboard">
             ← Back to dashboard
           </Link>
 

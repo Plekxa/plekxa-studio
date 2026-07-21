@@ -91,7 +91,7 @@ export default async function ProjectsPage({
             </p>
           </div>
 
-          <Link className="button" href="/creator-studio/pitch">
+          <Link className="button" href="/pitch">
             Pitch your own project
           </Link>
         </div>
@@ -126,7 +126,7 @@ export default async function ProjectsPage({
           </button>
 
           {search || department ? (
-            <Link className="projects-clear-filter" href="/creator-studio/projects">
+            <Link className="projects-clear-filter" href="/projects">
               Clear
             </Link>
           ) : null}
@@ -174,7 +174,7 @@ export default async function ProjectsPage({
                         ? "button button-secondary"
                         : "button"
                     }
-                    href={`/creator-studio/projects/${project.slug}`}
+                    href={`/projects/${project.slug}`}
                   >
                     {applicationStatus
                       ? "View application"

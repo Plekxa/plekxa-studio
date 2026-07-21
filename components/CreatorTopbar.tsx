@@ -59,7 +59,7 @@ export function CreatorTopbar({
         </a>
 
         <Link
-          href="/creator-studio/profile"
+          href="/profile"
           className="studio-topbar-profile"
         >
           <div className="studio-topbar-avatar">

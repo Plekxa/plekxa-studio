@@ -31,7 +31,7 @@ export default async function ProposalsPage() {
             <p>Track every project you have submitted to Plekxa.</p>
           </div>
 
-          <Link className="button" href="/creator-studio/pitch">
+          <Link className="button" href="/pitch">
             Pitch a project
           </Link>
         </div>

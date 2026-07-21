@@ -31,8 +31,8 @@ export function MarketingFooter() {
           <h3>Creators</h3>
           <Link href="/signup">Join as a creator</Link>
           <Link href="/login">Creator sign in</Link>
-          <Link href="/creator-studio/projects">Open opportunities</Link>
-          <Link href="/creator-studio/dashboard">Creator Studio</Link>
+          <Link href="/projects">Open opportunities</Link>
+          <Link href="/dashboard">Creator Studio</Link>
         </div>
 
         <div>
