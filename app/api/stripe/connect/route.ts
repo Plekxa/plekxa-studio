@@ -22,22 +22,12 @@ console.log(
   return new Stripe(secretKey);
 }
 
-export async function POST(request: Request) {
-  try {
-    const stripe = getStripeClient();
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-      return NextResponse.json(
-        { error: "You must be signed in." },
-        { status: 401 }
-      );
-    }
+export async function POST() {
+  return NextResponse.json({
+    hasKey: !!process.env.STRIPE_SECRET_KEY,
+    prefix: process.env.STRIPE_SECRET_KEY?.substring(0, 7),
+  });
+}
 
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
