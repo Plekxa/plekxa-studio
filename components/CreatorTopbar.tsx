@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, CircleHelp, ExternalLink } from "lucide-react";
+import NotificationBell from "@/components/notifications/notification-bell";
+import {
+  Bell,
+  CircleHelp,
+  ExternalLink,
+  Search,
+  Settings,
+} from "lucide-react";
 
 type CreatorTopbarProps = {
   fullName?: string | null;
@@ -40,13 +47,7 @@ export function CreatorTopbar({
           <CircleHelp size={18} />
         </a>
 
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="studio-topbar-icon"
-        >
-          <Bell size={18} />
-        </button>
+        <NotificationBell />
 
         <a
           href="https://plekxa.com"
