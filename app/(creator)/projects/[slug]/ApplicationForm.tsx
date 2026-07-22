@@ -2,98 +2,120 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 
 type ApplicationFormProps = {
   projectId: string;
-  creatorId: string;
   defaultPortfolioUrl: string;
-  defaultAvailability: string;
 };
 
 export function ApplicationForm({
   projectId,
-  creatorId,
   defaultPortfolioUrl,
-  defaultAvailability,
 }: ApplicationFormProps) {
   const router = useRouter();
-  const supabase = createClient();
 
-  const [statement, setStatement] = useState("");
-  const [portfolioUrl, setPortfolioUrl] = useState(defaultPortfolioUrl);
-  const [availability, setAvailability] = useState(defaultAvailability);
+  const [coverLetter, setCoverLetter] = useState("");
+  const [portfolioUrl, setPortfolioUrl] =
+    useState(defaultPortfolioUrl);
+
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
     event.preventDefault();
+
+    if (submitting) return;
+
     setSubmitting(true);
     setMessage("");
 
-    const { error } = await supabase.from("applications").insert({
-      project_id: projectId,
-      creator_id: creatorId,
-      statement,
-      portfolio_url: portfolioUrl || null,
-      availability: availability || null,
-      status: "submitted",
-    });
+    try {
+      const response = await fetch("/api/applications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          projectId,
+          coverLetter,
+          portfolioUrl,
+        }),
+      });
 
-    if (error) {
-      if (error.code === "23505") {
-        setMessage("You have already applied to this project.");
-      } else {
-        setMessage(error.message);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result.error || "Unable to submit application."
+        );
       }
 
-      setSubmitting(false);
-      return;
-    }
+      setMessage("Application submitted successfully.");
 
-    setMessage("Application submitted successfully.");
-    setStatement("");
-    setSubmitting(false);
-    router.refresh();
+      setCoverLetter("");
+
+      router.refresh();
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to submit application."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
-    <form className="application-form" onSubmit={handleSubmit}>
+    <form
+      className="application-form"
+      onSubmit={handleSubmit}
+    >
       <label>
         Why are you right for this project?
+
         <textarea
-          value={statement}
-          onChange={(event) => setStatement(event.target.value)}
-          rows={7}
-          placeholder="Describe your experience, creative approach and what you would contribute."
+          rows={8}
           required
+          maxLength={5000}
+          value={coverLetter}
+          onChange={(e) =>
+            setCoverLetter(e.target.value)
+          }
+          placeholder="Describe your experience, creative process and why you're a great fit."
         />
       </label>
 
       <label>
         Portfolio URL
+
         <input
           type="url"
           value={portfolioUrl}
-          onChange={(event) => setPortfolioUrl(event.target.value)}
-          placeholder="https://..."
+          onChange={(e) =>
+            setPortfolioUrl(e.target.value)
+          }
+          placeholder="https://yourportfolio.com"
         />
       </label>
 
-      <label>
-        Availability
-        <input
-          value={availability}
-          onChange={(event) => setAvailability(event.target.value)}
-          placeholder="Tell us when you are available."
-        />
-      </label>
-
-      <button className="button" type="submit" disabled={submitting}>
-        {submitting ? "Submitting..." : "Submit application"}
+      <button
+        className="button"
+        type="submit"
+        disabled={submitting}
+      >
+        {submitting
+          ? "Submitting..."
+          : "Submit application"}
       </button>
 
-      {message ? <p className="application-message">{message}</p> : null}
+      {message && (
+        <p className="application-message">
+          {message}
+        </p>
+      )}
     </form>
   );
 }

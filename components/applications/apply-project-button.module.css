@@ -1,0 +1,265 @@
+.applyButton,
+.submittedButton {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 0 17px;
+  font-size: 13px;
+  font-weight: 780;
+}
+
+.applyButton {
+  border: 0;
+  background: #df536f;
+  color: white;
+  cursor: pointer;
+}
+
+.applyButton:hover {
+  background: #ce4561;
+}
+
+.submittedButton {
+  border: 1px solid #cfe9d8;
+  background: #f0fbf4;
+  color: #277844;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(22, 17, 24, 0.56);
+  padding: 22px;
+}
+
+.modal {
+  width: min(620px, 100%);
+  overflow: hidden;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 30px 100px rgba(18, 13, 20, 0.3);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #eee9ef;
+  padding: 24px 26px;
+}
+
+.header span {
+  display: block;
+  margin-bottom: 5px;
+  color: #df536f;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h2 {
+  margin: 0;
+  color: #1d1920;
+  font-size: 22px;
+  letter-spacing: -0.035em;
+}
+
+.closeButton {
+  display: flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e6e0e7;
+  border-radius: 11px;
+  background: white;
+  color: #554e58;
+  cursor: pointer;
+}
+
+.form {
+  display: grid;
+  gap: 21px;
+  padding: 26px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+}
+
+.form label > span {
+  color: #302b33;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #ddd7df;
+  border-radius: 12px;
+  padding: 0 13px;
+  color: #928a95;
+}
+
+.inputWrapper:focus-within {
+  border-color: #df536f;
+  box-shadow: 0 0 0 3px rgba(223, 83, 111, 0.1);
+}
+
+.inputWrapper input {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 150px;
+  border: 1px solid #ddd7df;
+  border-radius: 12px;
+  outline: none;
+  padding: 13px;
+  font: inherit;
+  line-height: 1.55;
+}
+
+.form textarea:focus {
+  border-color: #df536f;
+  box-shadow: 0 0 0 3px rgba(223, 83, 111, 0.1);
+}
+
+.form small {
+  justify-self: end;
+  color: #958e99;
+  font-size: 11px;
+}
+
+.error {
+  margin: 0;
+  border-radius: 10px;
+  background: #fff0f3;
+  padding: 11px 13px;
+  color: #b92e49;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 5px;
+}
+
+.cancelButton,
+.submitButton {
+  display: inline-flex;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 11px;
+  padding: 0 17px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.cancelButton {
+  border: 1px solid #ded8e0;
+  background: white;
+  color: #4a444d;
+}
+
+.submitButton {
+  border: 0;
+  background: #df536f;
+  color: white;
+}
+
+.cancelButton:disabled,
+.submitButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.success {
+  display: flex;
+  min-height: 360px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 38px;
+  text-align: center;
+}
+
+.success > div {
+  display: flex;
+  width: 62px;
+  height: 62px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: #ebf9f0;
+  color: #318351;
+}
+
+.success h3 {
+  margin: 18px 0 0;
+  color: #201c23;
+  font-size: 23px;
+}
+
+.success p {
+  max-width: 400px;
+  margin: 9px 0 22px;
+  color: #77707b;
+  line-height: 1.6;
+}
+
+.success button {
+  min-height: 43px;
+  border: 0;
+  border-radius: 11px;
+  background: #df536f;
+  padding: 0 25px;
+  color: white;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+@media (max-width: 600px) {
+  .backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal {
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: 22px 22px 0 0;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}

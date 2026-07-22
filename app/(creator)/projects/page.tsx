@@ -46,22 +46,23 @@ export default async function ProjectsPage({
   }
 
   const [
-    { data: projects, error: projectsError },
-    { data: applications },
-    { data: departmentRows },
-  ] = await Promise.all([
-    projectsQuery,
+  { data: projects, error: projectsError },
+  { data: applications },
+  { data: departmentRows },
+] = await Promise.all([
+  projectsQuery,
 
-    supabase
-      .from("applications")
-      .select("project_id, status")
-      .eq("creator_id", user.id),
+  supabase
+  .from("creator_applications")
+  .select("project_id, status")
+  .eq("creator_id", user.id)
+  .in("status", ["pending", "under_review", "accepted"]),
 
-    supabase
-      .from("projects")
-      .select("department")
-      .eq("status", "open"),
-  ]);
+  supabase
+    .from("projects")
+    .select("department")
+    .eq("status", "open"),
+]);
 
   const appliedProjects = new Map(
     applications?.map((application) => [
@@ -168,18 +169,23 @@ export default async function ProjectsPage({
                     <small>Applications currently open</small>
                   )}
 
-                  <Link
-                    className={
-                      applicationStatus
-                        ? "button button-secondary"
-                        : "button"
-                    }
-                    href={`/projects/${project.slug}`}
-                  >
-                    {applicationStatus
-                      ? "View application"
-                      : "View project"}
-                  </Link>
+                  <div
+  style={{
+    display: "flex",
+    gap: "12px",
+    marginTop: "18px",
+    flexWrap: "wrap",
+  }}
+>
+  <Link
+    className="button button-secondary"
+    href={`/projects/${project.slug}`}
+  >
+    View Project
+  </Link>
+
+  
+</div>
                 </article>
               );
             })}
