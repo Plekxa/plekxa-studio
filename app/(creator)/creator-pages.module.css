@@ -1,0 +1,491 @@
+.page {
+  width: 100%;
+  padding: 40px;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #df536f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.heading h1 {
+  margin: 0;
+  color: #17151b;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.heading p {
+  max-width: 680px;
+  margin: 14px 0 0;
+  color: #6e6875;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+.primaryButton {
+  border: 0;
+  background: #df536f;
+  color: white;
+}
+
+.secondaryButton {
+  border: 1px solid #ddd8df;
+  background: white;
+  color: #211e25;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-1px);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  border: 1px solid #e8e3e9;
+  border-radius: 20px;
+  background: white;
+  padding: 22px;
+  box-shadow: 0 12px 40px rgba(25, 21, 28, 0.035);
+}
+
+.statIcon {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  border-radius: 12px;
+  background: #f8eef1;
+  color: #d94e69;
+}
+
+.statLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #837d87;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.statValue {
+  display: block;
+  color: #18151c;
+  font-size: 30px;
+  font-weight: 820;
+  letter-spacing: -0.04em;
+}
+
+.panel {
+  overflow: hidden;
+  border: 1px solid #e8e3e9;
+  border-radius: 22px;
+  background: white;
+  box-shadow: 0 12px 40px rgba(25, 21, 28, 0.035);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  border-bottom: 1px solid #eee9ef;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+
+.panelHeader p {
+  margin: 5px 0 0;
+  color: #7d7681;
+  font-size: 14px;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 14px 22px;
+  background: #fbfafb;
+  color: #8a838d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table td {
+  padding: 18px 22px;
+  border-top: 1px solid #f0ecf1;
+  color: #433e47;
+  font-size: 14px;
+}
+
+.projectCell {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.thumbnail {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #f3eff3;
+  color: #817985;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.projectCell strong {
+  display: block;
+  color: #1d1920;
+  font-size: 14px;
+}
+
+.projectCell span {
+  display: block;
+  margin-top: 4px;
+  color: #8a838d;
+  font-size: 12px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.statusLive,
+.statusApproved,
+.statusPaid,
+.statusAvailable {
+  background: #eaf8ef;
+  color: #287e48;
+}
+
+.statusPending,
+.statusUpcoming,
+.statusProcessing {
+  background: #fff5df;
+  color: #9b6b0a;
+}
+
+.statusPaused,
+.statusEnded,
+.statusCancelled,
+.statusArchived,
+.statusFailed {
+  background: #f3eff3;
+  color: #706975;
+}
+
+.money {
+  color: #17141a;
+  font-weight: 800;
+}
+
+.emptyState {
+  display: flex;
+  min-height: 330px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: flex;
+  width: 62px;
+  height: 62px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-radius: 18px;
+  background: #f8eef1;
+  color: #d94e69;
+}
+
+.emptyState h2 {
+  margin: 0;
+  color: #1c1920;
+  font-size: 23px;
+  letter-spacing: -0.03em;
+}
+
+.emptyState p {
+  max-width: 460px;
+  margin: 10px 0 22px;
+  color: #7f7883;
+  line-height: 1.6;
+}
+
+.experienceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.experienceCard {
+  overflow: hidden;
+  border: 1px solid #e7e2e8;
+  border-radius: 22px;
+  background: white;
+  box-shadow: 0 12px 40px rgba(25, 21, 28, 0.035);
+}
+
+.experienceCover {
+  position: relative;
+  display: flex;
+  height: 190px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, #f9d4dc, transparent 46%),
+    linear-gradient(145deg, #2e2831, #151217);
+  color: white;
+}
+
+.experienceCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverFallback {
+  opacity: 0.8;
+}
+
+.experienceStatus {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.experienceBody {
+  padding: 20px;
+}
+
+.experienceBody h2 {
+  margin: 0;
+  color: #19161c;
+  font-size: 21px;
+  letter-spacing: -0.035em;
+}
+
+.experienceMeta {
+  margin: 7px 0 20px;
+  color: #7f7883;
+  font-size: 13px;
+}
+
+.experienceMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metric {
+  border-radius: 14px;
+  background: #f8f6f8;
+  padding: 13px;
+}
+
+.metric span {
+  display: block;
+  margin-bottom: 6px;
+  color: #89818c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.metric strong {
+  color: #211d24;
+  font-size: 16px;
+}
+
+.financeLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+  gap: 20px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 22px;
+  border-top: 1px solid #f0ecf1;
+}
+
+.listItem:first-child {
+  border-top: 0;
+}
+
+.listMain {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 13px;
+}
+
+.listIcon {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f8eef1;
+  color: #d94e69;
+}
+
+.listMain strong {
+  display: block;
+  overflow: hidden;
+  color: #211d24;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.listMain span {
+  display: block;
+  margin-top: 4px;
+  color: #8a838d;
+  font-size: 12px;
+}
+
+.listAmount {
+  text-align: right;
+}
+
+.listAmount strong {
+  display: block;
+  color: #17141a;
+}
+
+.listAmount span {
+  display: inline-flex;
+  margin-top: 6px;
+}
+
+@media (max-width: 1100px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .experienceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .financeLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 24px 18px 40px;
+  }
+
+  .heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .statsGrid,
+  .experienceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard {
+    padding: 18px;
+  }
+
+  .statIcon {
+    margin-bottom: 18px;
+  }
+
+  .panelHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .listItem {
+    align-items: flex-start;
+  }
+}

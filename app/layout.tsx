@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Plekxa — Original experiences for how you feel",
+  title: {
+    default: "Plekxa Creator Studio",
+    template: "%s | Plekxa Creator Studio",
+  },
   description:
-    "Listen, watch and discover original Plekxa experiences made for real moments.",
+    "Manage creator projects, experiences, contracts and earnings with Plekxa.",
+  applicationName: "Plekxa Creator Studio",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/apple-icon.svg",
+  },
 };
 
 export default function RootLayout({
