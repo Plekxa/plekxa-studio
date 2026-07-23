@@ -1,0 +1,403 @@
+.page {
+  width: 100%;
+  padding: 40px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 25px;
+  color: #746d78;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 25px;
+}
+
+.heading span {
+  display: block;
+  margin-bottom: 7px;
+  color: #df536f;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.heading h1 {
+  margin: 0;
+  color: #1d1920;
+  font-size: clamp(32px, 4vw, 48px);
+  letter-spacing: -0.05em;
+}
+
+.heading p {
+  margin: 8px 0 0;
+  color: #89818c;
+  font-size: 12px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  background: #fff7df;
+  padding: 9px 13px;
+  color: #856510;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 22px;
+}
+
+.document,
+.signingPanel {
+  border: 1px solid #e7e2e8;
+  border-radius: 22px;
+  background: white;
+}
+
+.document {
+  padding: 28px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.summary div {
+  border-radius: 13px;
+  background: #faf7f9;
+  padding: 14px;
+}
+
+.summary span,
+.summary strong {
+  display: block;
+}
+
+.summary span {
+  color: #8d8590;
+  font-size: 10px;
+}
+
+.summary strong {
+  margin-top: 5px;
+  color: #302a32;
+  font-size: 14px;
+}
+
+.section {
+  border-top: 1px solid #eee9ef;
+  padding: 25px 0;
+}
+
+.section:last-child {
+  padding-bottom: 0;
+}
+
+.section h2 {
+  margin: 0 0 11px;
+  color: #282229;
+  font-size: 17px;
+}
+
+.section p,
+.section li {
+  color: #6f6873;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.milestones {
+  display: grid;
+  gap: 10px;
+}
+
+.milestones article {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-radius: 12px;
+  background: #faf7f9;
+  padding: 14px;
+}
+
+.milestones p {
+  margin: 5px 0 0;
+}
+
+.milestones article > div:last-child {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.milestones span {
+  display: block;
+  margin-top: 5px;
+  color: #8a828d;
+  font-size: 10px;
+}
+
+.signingPanel {
+  position: sticky;
+  top: 100px;
+  padding: 24px;
+}
+
+.signingIcon,
+.signed > div {
+  display: flex;
+  width: 52px;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #f7eaf0;
+  color: #df536f;
+}
+
+.signingPanel h2 {
+  margin: 18px 0 0;
+  color: #282229;
+  font-size: 20px;
+}
+
+.signingPanel > p {
+  margin: 8px 0 20px;
+  color: #7a737e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.signingPanel form {
+  display: grid;
+  gap: 17px;
+}
+
+.signingPanel form > label {
+  display: grid;
+  gap: 8px;
+  color: #403941;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.signingPanel input[type="text"],
+.signingPanel input:not([type]) {
+  min-height: 44px;
+  border: 1px solid #ddd7df;
+  border-radius: 11px;
+  outline: none;
+  padding: 0 12px;
+  font: inherit;
+}
+
+.checkbox {
+  display: flex !important;
+  grid-template-columns: auto 1fr;
+  align-items: flex-start;
+  gap: 9px !important;
+  color: #756e79 !important;
+  font-weight: 500 !important;
+  line-height: 1.5;
+}
+
+.checkbox input {
+  margin-top: 3px;
+}
+
+.signingPanel button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 11px;
+  background: #df536f;
+  color: white;
+  cursor: pointer;
+  font-weight: 780;
+}
+
+.signingPanel button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.signed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.signed p {
+  margin: 10px 0 0;
+  color: #716a75;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.signed span {
+  margin-top: 5px;
+  color: #938b96;
+  font-size: 10px;
+}
+
+.signed small {
+  display: block;
+  margin-top: 18px;
+  border-radius: 10px;
+  background: #eaf3ff;
+  padding: 11px;
+  color: #326aab;
+  line-height: 1.5;
+}
+
+.message {
+  margin: 16px 0 0 !important;
+  border-radius: 10px;
+  background: #faf0f3;
+  padding: 11px;
+  color: #b8324c !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+.loading,
+.errorState {
+  display: flex;
+  min-height: 400px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  animation: spin 800ms linear infinite;
+  color: #df536f;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .signingPanel {
+    position: static;
+  }
+}
+
+@media (max-width: 650px) {
+  .page {
+    padding: 24px 18px 40px;
+  }
+
+  .heading {
+    flex-direction: column;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .milestones article {
+    flex-direction: column;
+  }
+
+  .milestones article > div:last-child {
+    text-align: left;
+  }
+}
+
+.section h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.downloadButton {
+  display: inline-flex;
+  width: 100%;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd7df;
+  border-radius: 11px;
+  color: #4a434d;
+  font-size: 12px;
+  font-weight: 780;
+  text-decoration: none;
+}
+
+.downloadButton:hover {
+  border-color: #df536f;
+  color: #df536f;
+}
+
+.history {
+  display: grid;
+  gap: 14px;
+}
+
+.history article {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 12px;
+}
+
+.history article > div:first-child {
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 999px;
+  background: #df536f;
+}
+
+.history strong,
+.history span {
+  display: block;
+}
+
+.history strong {
+  color: #413a43;
+  font-size: 12px;
+}
+
+.history span {
+  margin-top: 4px;
+  color: #938b96;
+  font-size: 10px;
+}

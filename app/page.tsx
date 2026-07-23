@@ -23,7 +23,7 @@ export default async function CreatorLandingPage() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/creator-studio/dashboard");
+    redirect("/dashboard");
   }
 
   return (

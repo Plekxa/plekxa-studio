@@ -15,6 +15,14 @@ export type NotificationType =
   | "pitch_accepted"
   | "pitch_rejected"
   | "message_received"
+  | "general"
+  | "application_submitted"
+  | "application_accepted"
+  | "application_rejected"
+  | "contract_ready"
+  | "contract_active"
+  | "contract_cancelled"
+  | "private_project_invitation"
   | "general";
 
 export type CreatorNotification = {
