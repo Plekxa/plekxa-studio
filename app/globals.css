@@ -10,6 +10,62 @@
 @import "../styles/legacy.css";
 @import "../styles/responsive.css";
 
+:root {
+  color-scheme: light;
+
+  --bg: #f8f5f6;
+  --bg-soft: #fcfafb;
+  --surface: #ffffff;
+  --surface-soft: #faf7f9;
+
+  --text: #201c23;
+  --text-soft: #756e79;
+  --muted: #938b96;
+
+  --border: #e7e2e8;
+  --border-strong: #d9d2db;
+
+  --accent: #df536f;
+  --accent-hover: #cc4561;
+
+  --shadow: 0 18px 55px rgba(38, 26, 35, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg: #0f0d12;
+    --bg-soft: #151219;
+    --surface: #19161d;
+    --surface-soft: #211d24;
+
+    --text: #f7f2f5;
+    --text-soft: #c8bec6;
+    --muted: #998f98;
+
+    --border: #302a33;
+    --border-strong: #443c46;
+
+    --accent: #ea607d;
+    --accent-hover: #f2728b;
+
+    --shadow: 0 20px 65px rgba(0, 0, 0, 0.35);
+  }
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
 .studio-auth-shell {
   min-height: 100vh;
   display: grid;

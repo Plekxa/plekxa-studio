@@ -1102,6 +1102,7 @@
   min-height: 100vh;
   padding: 64px 0 110px;
   background: var(--bg);
+  color: var(--text);
 }
 
 .creator-pitch-heading {
@@ -1231,6 +1232,7 @@
   min-height: 100vh;
   padding: 64px 0 110px;
   background: var(--bg);
+  color: var(--text);
 }
 
 .creator-proposals-page .creator-panel-heading h1 {
@@ -1588,8 +1590,8 @@
     border: 1px solid var(--border);
     border-radius: 18px;
 
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 12px 34px rgba(25, 18, 28, 0.16);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
     backdrop-filter: blur(16px);
   }
 
