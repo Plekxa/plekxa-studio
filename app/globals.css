@@ -3111,3 +3111,319 @@ textarea::placeholder {
 .mobile-bottom-nav a.active {
   color: var(--accent-dark) !important;
 }
+
+/* =========================================================
+   FINAL DARK MODE FIX — MUST BE LAST IN globals.css
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+  /* Main Creator Studio backgrounds */
+  html,
+  body,
+  .creator-app-shell,
+  .creator-app-main,
+  .creator-app-content,
+  .studio-shell,
+  .studio-main,
+  .studio-content {
+    background: #0f0d12 !important;
+    color: #f7f2f5 !important;
+  }
+
+  /* Mobile logo/header */
+  .creator-mobile-header {
+    border-bottom-color: #37303a !important;
+    background: #19161d !important;
+    color: #f7f2f5 !important;
+  }
+
+  .creator-mobile-brand,
+  .creator-mobile-brand span,
+  .creator-mobile-brand strong {
+    color: #f7f2f5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .creator-mobile-brand small {
+    color: #c9bec7 !important;
+    opacity: 1 !important;
+  }
+
+  .creator-mobile-menu-button,
+  .creator-mobile-close-button {
+    border-color: #37303a !important;
+    background: #211d25 !important;
+    color: #f7f2f5 !important;
+  }
+
+  .creator-mobile-menu-button svg,
+  .creator-mobile-close-button svg {
+    color: #f7f2f5 !important;
+  }
+
+  /* Second top header */
+  .creator-topbar,
+  .studio-topbar {
+    border-bottom-color: #37303a !important;
+    background: #19161d !important;
+    color: #f7f2f5 !important;
+  }
+
+  .creator-topbar-copy span,
+  .studio-topbar-title span,
+  .creator-topbar-profile span,
+  .studio-topbar-profile span {
+    color: #c9bec7 !important;
+  }
+
+  .creator-topbar-copy strong,
+  .studio-topbar-title strong,
+  .creator-topbar-profile strong,
+  .studio-topbar-profile strong {
+    color: #f7f2f5 !important;
+  }
+
+  .creator-topbar-icon,
+  .studio-topbar-icon {
+    border-color: #37303a !important;
+    background: #211d25 !important;
+    color: #f7f2f5 !important;
+  }
+
+  .creator-topbar-icon svg,
+  .studio-topbar-icon svg {
+    color: #f7f2f5 !important;
+  }
+
+  /* Sidebar and mobile drawer */
+  .creator-mobile-drawer,
+  .creator-sidebar,
+  .studio-sidebar {
+    border-color: #37303a !important;
+    background: #19161d !important;
+    color: #f7f2f5 !important;
+  }
+
+  .creator-sidebar-brand,
+  .creator-sidebar-brand strong,
+  .studio-sidebar-brand,
+  .studio-sidebar-brand strong {
+    color: #f7f2f5 !important;
+  }
+
+  .creator-sidebar-brand span,
+  .studio-sidebar-brand span {
+    color: #c9bec7 !important;
+  }
+
+  .creator-sidebar-link,
+  .creator-sidebar-button,
+  .studio-sidebar-link {
+    color: #c9bec7 !important;
+  }
+
+  .creator-sidebar-link:hover,
+  .creator-sidebar-button:hover,
+  .studio-sidebar-link:hover {
+    background: #211d25 !important;
+    color: #f7f2f5 !important;
+  }
+
+  /* All shared Studio cards */
+  .studio-panel,
+  .studio-card,
+  .studio-stats-grid article,
+  .creator-dashboard-stats article,
+  .creator-dashboard-panel,
+  .creator-empty-page,
+  .creator-settings-card,
+  .creator-profile-summary,
+  .creator-profile-card,
+  .creator-profile-reputation-grid article,
+  .creator-feature-card,
+  .creator-earnings-card {
+    border-color: #37303a !important;
+    background: #19161d !important;
+    color: #f7f2f5 !important;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  /* Card headings and numbers */
+  .studio-panel h1,
+  .studio-panel h2,
+  .studio-panel h3,
+  .studio-panel strong,
+  .studio-stats-grid strong,
+  .creator-dashboard-stats strong,
+  .creator-dashboard-panel h2,
+  .creator-dashboard-panel h3,
+  .creator-empty-page h2,
+  .creator-settings-card h2,
+  .creator-profile-summary h2,
+  .creator-profile-card h2,
+  .creator-profile-reputation-grid strong,
+  .creator-earnings-card strong {
+    color: #f7f2f5 !important;
+    opacity: 1 !important;
+  }
+
+  /* Secondary card text */
+  .studio-panel p,
+  .studio-panel span,
+  .studio-panel small,
+  .studio-stats-grid span,
+  .studio-stats-grid small,
+  .creator-dashboard-stats span,
+  .creator-dashboard-stats small,
+  .creator-dashboard-panel p,
+  .creator-empty-page p,
+  .creator-settings-card p,
+  .creator-profile-summary p,
+  .creator-profile-meta span,
+  .creator-profile-reputation-grid span,
+  .creator-profile-reputation-grid small,
+  .creator-earnings-card span {
+    color: #c9bec7 !important;
+  }
+
+  /* Page headings that were almost invisible */
+  .creator-page-heading h1,
+  .creator-dashboard-hero h1,
+  .studio-page-heading h1,
+  .studio-page-heading h2,
+  .projects-marketplace-heading h1,
+  .creator-pitch-heading h1,
+  .creator-panel-heading h1,
+  .creator-panel-heading h2 {
+    color: #f7f2f5 !important;
+    opacity: 1 !important;
+  }
+
+  .creator-page-heading p,
+  .creator-dashboard-hero p,
+  .studio-page-heading p,
+  .projects-marketplace-heading p,
+  .creator-pitch-heading p,
+  .creator-panel-heading p {
+    color: #c9bec7 !important;
+  }
+
+  /* Project marketplace */
+  .projects-filter-bar,
+  .marketplace-project-card,
+  .projects-empty-state,
+  .creator-proposal-card,
+  .creator-pitch-section,
+  .creator-pitch-submit {
+    border-color: #37303a !important;
+    background: #19161d !important;
+    color: #f7f2f5 !important;
+  }
+
+  .marketplace-project-card h2,
+  .creator-proposal-card h2,
+  .projects-empty-state h2,
+  .creator-pitch-section h2 {
+    color: #f7f2f5 !important;
+    opacity: 1 !important;
+  }
+
+  .marketplace-project-card p,
+  .marketplace-project-card small,
+  .creator-proposal-card p,
+  .creator-proposal-card small,
+  .projects-empty-state p {
+    color: #c9bec7 !important;
+  }
+
+  /* Contracts CSS-module elements */
+  [class*="contracts-page_panel"],
+  [class*="contracts-page_card"],
+  [class*="contracts-page_empty"],
+  [class*="contract-viewer_document"],
+  [class*="contract-viewer_signingPanel"],
+  [class*="contract-viewer_section"] {
+    border-color: #37303a !important;
+    background: #19161d !important;
+    color: #f7f2f5 !important;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  [class*="contracts-page_card"] h1,
+  [class*="contracts-page_card"] h2,
+  [class*="contracts-page_card"] h3,
+  [class*="contracts-page_card"] strong,
+  [class*="contract-viewer_document"] h1,
+  [class*="contract-viewer_document"] h2,
+  [class*="contract-viewer_document"] h3,
+  [class*="contract-viewer_document"] strong,
+  [class*="contract-viewer_signingPanel"] h2,
+  [class*="contract-viewer_signingPanel"] strong {
+    color: #f7f2f5 !important;
+  }
+
+  [class*="contracts-page_card"] p,
+  [class*="contracts-page_card"] span,
+  [class*="contracts-page_card"] small,
+  [class*="contract-viewer_document"] p,
+  [class*="contract-viewer_document"] span,
+  [class*="contract-viewer_document"] small,
+  [class*="contract-viewer_signingPanel"] p {
+    color: #c9bec7 !important;
+  }
+
+  /* Contract value/date inner boxes */
+  [class*="contracts-page_details"] > div,
+  [class*="contract-viewer_meta"] > div {
+    border-color: #37303a !important;
+    background: #211d25 !important;
+    color: #f7f2f5 !important;
+  }
+
+  /* Inputs */
+  input,
+  textarea,
+  select {
+    border-color: #37303a !important;
+    background: #141117 !important;
+    color: #f7f2f5 !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #9f949d !important;
+  }
+
+  /* Tables and dividers */
+  .studio-earnings-table th,
+  .studio-earnings-table td,
+  .creator-earnings-lines div,
+  .creator-profile-meta div {
+    border-color: #37303a !important;
+  }
+
+  .studio-earnings-table th,
+  .studio-earnings-table td {
+    color: #c9bec7 !important;
+  }
+
+  .studio-earnings-table td strong {
+    color: #f7f2f5 !important;
+  }
+
+  /* Mobile bottom navigation */
+  .mobile-bottom-nav {
+    border-color: #37303a !important;
+    background: rgba(25, 22, 29, 0.96) !important;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .mobile-bottom-nav a {
+    color: #c9bec7 !important;
+  }
+
+  .mobile-bottom-nav a.active {
+    color: #f06a86 !important;
+  }
+}
