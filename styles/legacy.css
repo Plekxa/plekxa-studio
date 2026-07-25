@@ -2704,3 +2704,170 @@
 .creator-mobile-header svg {
   color: var(--text);
 }
+
+/* =========================================================
+   CREATOR STUDIO — ACTUAL SHELL THEME OVERRIDES
+   Keep this at the absolute bottom of legacy.css
+   ========================================================= */
+
+.studio-shell,
+.studio-main,
+.studio-content {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* Mobile header */
+
+.studio-mobile-header,
+.studio-topbar {
+  border-color: var(--border) !important;
+  background: var(--header-bg) !important;
+  color: var(--text) !important;
+
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+/* Plekxa logo text */
+
+.studio-mobile-brand,
+.studio-mobile-brand strong,
+.studio-mobile-brand span,
+.studio-sidebar-brand,
+.studio-sidebar-brand strong {
+  color: var(--text) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.studio-mobile-brand small,
+.studio-sidebar-brand span {
+  color: var(--text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Header buttons */
+
+.studio-mobile-menu-button,
+.studio-mobile-close-button,
+.studio-topbar-icon {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+.studio-mobile-menu-button svg,
+.studio-mobile-close-button svg,
+.studio-topbar-icon svg {
+  color: var(--text) !important;
+}
+
+/* Sidebar and mobile drawer */
+
+.studio-sidebar,
+.studio-mobile-drawer {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+.studio-sidebar-link {
+  color: var(--text-muted) !important;
+}
+
+.studio-sidebar-link:hover {
+  background: var(--surface-soft) !important;
+  color: var(--text) !important;
+}
+
+.studio-sidebar-link.is-active {
+  background: color-mix(
+    in srgb,
+    var(--accent) 14%,
+    var(--surface)
+  ) !important;
+  color: var(--accent-dark) !important;
+}
+
+/* All Studio panels/cards */
+
+.studio-panel,
+.studio-card,
+.studio-stats-grid article,
+.studio-content article,
+.studio-content section {
+  border-color: var(--border) !important;
+  background-color: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* Do not turn the whole page wrapper into a card */
+
+.studio-content > main,
+.studio-content main,
+.studio-content main > section:first-child {
+  background-color: transparent !important;
+}
+
+/* Card headings */
+
+.studio-panel h1,
+.studio-panel h2,
+.studio-panel h3,
+.studio-panel strong,
+.studio-card h1,
+.studio-card h2,
+.studio-card h3,
+.studio-card strong,
+.studio-content article h1,
+.studio-content article h2,
+.studio-content article h3,
+.studio-content article strong {
+  color: var(--text) !important;
+}
+
+/* Secondary card text */
+
+.studio-panel p,
+.studio-panel span,
+.studio-panel small,
+.studio-card p,
+.studio-card span,
+.studio-card small,
+.studio-content article p,
+.studio-content article span,
+.studio-content article small {
+  color: var(--text-muted) !important;
+}
+
+/* Forms */
+
+.studio-content input,
+.studio-content textarea,
+.studio-content select {
+  border-color: var(--border) !important;
+  background: var(--bg-soft) !important;
+  color: var(--text) !important;
+}
+
+.studio-content input::placeholder,
+.studio-content textarea::placeholder {
+  color: var(--text-subtle) !important;
+}
+
+/* Mobile bottom nav */
+
+.mobile-bottom-nav {
+  border-color: var(--border) !important;
+  background: var(--header-bg) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.mobile-bottom-nav a {
+  color: var(--text-muted) !important;
+}
+
+.mobile-bottom-nav a.active {
+  color: var(--accent-dark) !important;
+}

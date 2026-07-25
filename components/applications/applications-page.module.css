@@ -23,7 +23,7 @@
 
 .heading h1 {
   margin: 0;
-  color: #18151b;
+  color: var(--text);
   font-size: clamp(38px, 5vw, 58px);
   line-height: 1;
   letter-spacing: -0.055em;
@@ -32,7 +32,7 @@
 .heading p {
   max-width: 650px;
   margin: 13px 0 0;
-  color: #756e79;
+  color: var(--text-muted);
   font-size: 15px;
   line-height: 1.65;
 }
@@ -63,9 +63,7 @@
   display: flex;
   align-items: center;
   gap: 13px;
-  border: 1px solid #e7e2e8;
-  border-radius: 17px;
-  background: white;
+  color: var(--text-muted);
   padding: 18px;
 }
 
@@ -79,27 +77,27 @@
 }
 
 .stats strong {
-  color: #211d24;
+ color: var(--text);
   font-size: 23px;
 }
 
 .stats span {
   margin-top: 2px;
-  color: #827a86;
+  color: var(--text-muted);
   font-size: 11px;
 }
 
 .panel {
   overflow: hidden;
-  border: 1px solid #e7e2e8;
-  border-radius: 22px;
-  background: white;
+  border: 1px solid var(--border);
+border-radius: 22px;
+background: var(--surface);
 }
 
 .application {
   display: flex;
   gap: 15px;
-  border-bottom: 1px solid #eee9ef;
+  border-bottom: 1px solid var(--border);
   padding: 21px 22px;
 }
 
@@ -115,7 +113,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 13px;
-  background: #f7eaf0;
+  background: var(--surface-soft);
   color: #da506b;
 }
 
@@ -133,7 +131,7 @@
 
 .applicationTop h2 {
   margin: 0;
-  color: #211d24;
+  color: var(--text);
   font-size: 17px;
 }
 
@@ -142,7 +140,7 @@
   align-items: center;
   gap: 6px;
   margin: 7px 0 0;
-  color: #8a828d;
+ color: var(--text-muted);
   font-size: 11px;
 }
 
@@ -190,13 +188,13 @@
 }
 
 .feedback strong {
-  color: #403941;
+ color: var(--text);
   font-size: 11px;
 }
 
 .feedback p {
   margin: 5px 0 0;
-  color: #756d78;
+  color: var(--text-muted);
   font-size: 12px;
   line-height: 1.55;
 }
@@ -213,7 +211,7 @@
   border: 0;
   background: transparent;
   padding: 0;
-  color: #776f7a;
+  color: var(--text-muted);
   cursor: pointer;
   font-size: 11px;
   font-weight: 750;
@@ -250,19 +248,19 @@
   justify-content: center;
   margin-bottom: 17px;
   border-radius: 18px;
-  background: #f7eaf0;
+  background: var(--surface-soft);
   color: #da506b;
 }
 
 .empty h2 {
   margin: 0;
-  color: #211d24;
+  color: var(--text);
 }
 
 .empty p {
   max-width: 420px;
   margin: 8px 0 20px;
-  color: #7b7480;
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
