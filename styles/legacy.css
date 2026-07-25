@@ -1098,13 +1098,13 @@
   }
 }
 
-.creator-pitch-page {
+.creator-pitch-page,
+.creator-proposals-page {
   min-height: 100vh;
   padding: 64px 0 110px;
   background: var(--bg);
   color: var(--text);
 }
-
 .creator-pitch-heading {
   max-width: 820px;
   margin-bottom: 38px;
@@ -1231,8 +1231,6 @@
 .creator-proposals-page {
   min-height: 100vh;
   padding: 64px 0 110px;
-  background: var(--bg);
-  color: var(--text);
 }
 
 .creator-proposals-page .creator-panel-heading h1 {
@@ -1595,19 +1593,28 @@
     backdrop-filter: blur(16px);
   }
 
-  .mobile-bottom-nav a {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+  .mobile-bottom-nav {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
 
-    color: var(--text-muted);
-    font-size: 10px;
-    font-weight: 750;
-    text-decoration: none;
-  }
+  height: 66px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: var(--header-bg);
+  box-shadow: var(--shadow-soft);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
 
   .mobile-bottom-nav a.active {
     color: var(--accent-dark);
@@ -2632,4 +2639,68 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+.creator-pitch-heading h1,
+.creator-proposals-page .creator-panel-heading h1,
+.creator-pitch-section h2,
+.creator-pitch-submit h2,
+.creator-proposal-card h2 {
+  color: var(--text);
+}
+
+.creator-pitch-heading p,
+.creator-proposals-page .creator-panel-heading p,
+.creator-proposal-card p,
+.creator-proposal-card small {
+  color: var(--text-muted);
+}
+
+.creator-pitch-section,
+.creator-pitch-submit,
+.creator-proposal-card {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.creator-pitch-section input,
+.creator-pitch-section textarea,
+.creator-pitch-section select {
+  border-color: var(--border);
+  background: var(--bg-soft);
+  color: var(--text);
+}
+
+.creator-pitch-section input::placeholder,
+.creator-pitch-section textarea::placeholder {
+  color: var(--text-subtle);
+}
+
+.creator-shell,
+.creator-main {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.creator-header,
+.creator-topbar,
+.creator-mobile-header {
+  border-color: var(--border) !important;
+  background: var(--header-bg) !important;
+  color: var(--text) !important;
+}
+
+.creator-header button,
+.creator-topbar button,
+.creator-mobile-header button {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+.creator-header svg,
+.creator-topbar svg,
+.creator-mobile-header svg {
+  color: var(--text);
 }
