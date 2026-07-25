@@ -2807,3 +2807,307 @@ body {
     box-shadow: 25px 0 65px rgba(0, 0, 0, 0.32);
   }
 }
+
+/* =========================================================
+   FINAL CREATOR STUDIO DARK-MODE OVERRIDES
+   Keep this as the last code in globals.css
+   ========================================================= */
+
+/* Entire Creator Studio shell */
+
+.creator-app-shell,
+.creator-app-main,
+.creator-app-content,
+.studio-shell,
+.studio-main,
+.studio-content {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* Mobile header and desktop topbar */
+
+.creator-mobile-header,
+.creator-topbar,
+.studio-topbar {
+  border-color: var(--border) !important;
+  background: var(--header-bg) !important;
+  color: var(--text) !important;
+
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+/* Restore the Plekxa logo text */
+
+.creator-mobile-brand,
+.creator-mobile-brand span,
+.creator-mobile-brand strong,
+.creator-sidebar-brand,
+.creator-sidebar-brand span,
+.creator-sidebar-brand strong,
+.studio-sidebar-brand,
+.studio-sidebar-brand strong {
+  color: var(--text) !important;
+  opacity: 1 !important;
+}
+
+.creator-mobile-brand small,
+.creator-sidebar-brand small,
+.studio-sidebar-brand span {
+  color: var(--text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Header buttons */
+
+.creator-mobile-menu-button,
+.creator-mobile-close-button,
+.creator-topbar-icon,
+.studio-topbar-icon {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+.creator-mobile-menu-button svg,
+.creator-mobile-close-button svg,
+.creator-topbar-icon svg,
+.studio-topbar-icon svg {
+  color: var(--text) !important;
+}
+
+/* Mobile drawer and desktop sidebar */
+
+.creator-mobile-drawer,
+.creator-sidebar,
+.studio-sidebar {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.creator-sidebar-button,
+.creator-sidebar a,
+.studio-sidebar-link {
+  color: var(--text-muted) !important;
+}
+
+.creator-sidebar-button:hover,
+.creator-sidebar a:hover,
+.studio-sidebar-link:hover {
+  background: var(--surface-soft) !important;
+  color: var(--text) !important;
+}
+
+.studio-sidebar-link.is-active {
+  background: color-mix(
+    in srgb,
+    var(--accent) 14%,
+    var(--surface)
+  ) !important;
+  color: var(--accent-dark) !important;
+}
+
+/* Page titles */
+
+.creator-page-heading h1,
+.creator-dashboard-hero h1,
+.studio-page-heading h1,
+.studio-page-heading h2,
+.projects-marketplace-heading h1,
+.creator-pitch-heading h1,
+.creator-panel-heading h1,
+.creator-panel-heading h2 {
+  color: var(--text) !important;
+  opacity: 1 !important;
+}
+
+.creator-page-heading p,
+.creator-dashboard-hero p,
+.studio-page-heading p,
+.projects-marketplace-heading p,
+.creator-pitch-heading p,
+.creator-panel-heading p {
+  color: var(--text-muted) !important;
+}
+
+/* Shared application, experience, earnings and dashboard cards */
+
+.studio-panel,
+.studio-stats-grid article,
+.creator-dashboard-stats article,
+.creator-dashboard-panel,
+.creator-empty-page,
+.creator-settings-card,
+.creator-profile-summary,
+.creator-profile-card,
+.creator-profile-reputation-grid article,
+.creator-earnings-card,
+.creator-feature-card {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+/* Text inside shared cards */
+
+.studio-panel h1,
+.studio-panel h2,
+.studio-panel h3,
+.studio-panel strong,
+.studio-stats-grid strong,
+.creator-dashboard-stats strong,
+.creator-dashboard-panel h2,
+.creator-dashboard-panel h3,
+.creator-profile-card h2,
+.creator-profile-summary h2,
+.creator-profile-reputation-grid strong,
+.creator-earnings-card strong {
+  color: var(--text) !important;
+}
+
+.studio-panel p,
+.studio-panel span,
+.studio-panel small,
+.studio-stats-grid span,
+.studio-stats-grid small,
+.creator-dashboard-stats span,
+.creator-dashboard-stats small,
+.creator-empty-page p,
+.creator-profile-summary p,
+.creator-profile-meta span,
+.creator-profile-reputation-grid span,
+.creator-profile-reputation-grid small,
+.creator-earnings-card span {
+  color: var(--text-muted) !important;
+}
+
+/* Contracts list CSS module cards */
+
+[class*="contracts-page_panel"],
+[class*="contracts-page_card"],
+[class*="contracts-page_empty"],
+[class*="contract-viewer_document"],
+[class*="contract-viewer_signingPanel"],
+[class*="contract-viewer_section"] {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+[class*="contracts-page_card"] h1,
+[class*="contracts-page_card"] h2,
+[class*="contracts-page_card"] h3,
+[class*="contracts-page_card"] strong,
+[class*="contract-viewer_document"] h1,
+[class*="contract-viewer_document"] h2,
+[class*="contract-viewer_document"] h3,
+[class*="contract-viewer_document"] strong,
+[class*="contract-viewer_signingPanel"] h2,
+[class*="contract-viewer_signingPanel"] strong {
+  color: var(--text) !important;
+}
+
+[class*="contracts-page_card"] p,
+[class*="contracts-page_card"] span,
+[class*="contracts-page_card"] small,
+[class*="contract-viewer_document"] p,
+[class*="contract-viewer_document"] span,
+[class*="contract-viewer_document"] small,
+[class*="contract-viewer_signingPanel"] p {
+  color: var(--text-muted) !important;
+}
+
+/* Inner contract value/date boxes */
+
+[class*="contracts-page_details"] > div,
+[class*="contract-viewer_meta"] > div {
+  border-color: var(--border) !important;
+  background: var(--surface-soft) !important;
+  color: var(--text) !important;
+}
+
+/* Marketplace cards and filters */
+
+.projects-filter-bar,
+.marketplace-project-card,
+.projects-empty-state,
+.creator-proposal-card,
+.creator-pitch-section,
+.creator-pitch-submit {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.marketplace-project-card h2,
+.creator-proposal-card h2,
+.projects-empty-state h2,
+.creator-pitch-section h2 {
+  color: var(--text) !important;
+}
+
+.marketplace-project-card p,
+.marketplace-project-card small,
+.creator-proposal-card p,
+.creator-proposal-card small,
+.projects-empty-state p {
+  color: var(--text-muted) !important;
+}
+
+/* Forms */
+
+input,
+textarea,
+select {
+  border-color: var(--border);
+  background: var(--bg-soft);
+  color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-subtle);
+}
+
+/* Earnings table */
+
+.studio-earnings-table th,
+.studio-earnings-table td,
+.creator-earnings-lines div,
+.creator-profile-meta div {
+  border-color: var(--border) !important;
+}
+
+.studio-earnings-table th,
+.studio-earnings-table td {
+  color: var(--text-muted) !important;
+}
+
+.studio-earnings-table td strong {
+  color: var(--text) !important;
+}
+
+/* Mobile bottom navigation */
+
+.mobile-bottom-nav {
+  border-color: var(--border) !important;
+  background: var(--header-bg) !important;
+  box-shadow: var(--shadow-soft) !important;
+
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.mobile-bottom-nav a {
+  color: var(--text-muted) !important;
+}
+
+.mobile-bottom-nav a.active {
+  color: var(--accent-dark) !important;
+}
