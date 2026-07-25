@@ -7,6 +7,15 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
+type Milestone = {
+  id: string;
+  contract_id: string;
+  title: string;
+  status: string;
+  due_date: string | null;
+  position: number;
+};
+
 export default async function ActiveProjectsPage() {
   const supabase = await createClient();
 
@@ -18,33 +27,56 @@ export default async function ActiveProjectsPage() {
     redirect("/login");
   }
 
-  const { data: workspaces, error } = await supabase
-    .from("creator_project_workspaces")
-    .select(`
-      id,
-      contract_id,
-      project_id,
-      title,
-      status,
-      started_at,
-      contract_milestones (
+  const { data: workspaces, error: workspacesError } =
+    await supabase
+      .from("creator_project_workspaces")
+      .select(`
         id,
+        contract_id,
+        project_id,
+        title,
+        status,
+        started_at,
+        created_at
+      `)
+      .eq("creator_id", user.id)
+      .in("status", ["active", "paused"])
+      .order("created_at", { ascending: false });
+
+  const contractIds =
+    workspaces?.map((workspace) => workspace.contract_id) ?? [];
+
+  let milestones: Milestone[] = [];
+  let milestonesError: { message: string } | null = null;
+
+  if (contractIds.length > 0) {
+    const result = await supabase
+      .from("contract_milestones")
+      .select(`
+        id,
+        contract_id,
         title,
         status,
         due_date,
         position
-      )
-    `)
-    .eq("creator_id", user.id)
-    .in("status", ["active", "paused"])
-    .order("created_at", { ascending: false });
+      `)
+      .in("contract_id", contractIds)
+      .order("position", { ascending: true });
+
+    milestones = (result.data ?? []) as Milestone[];
+    milestonesError = result.error;
+  }
+
+  const error = workspacesError ?? milestonesError;
 
   return (
     <main className="creator-projects-page">
       <div className="container">
         <header className="creator-page-heading">
           <span className="eyebrow">WORKSPACE</span>
+
           <h1>Active projects</h1>
+
           <p>
             Manage your current productions, milestones and
             deliverables.
@@ -59,13 +91,12 @@ export default async function ActiveProjectsPage() {
         ) : workspaces && workspaces.length > 0 ? (
           <section className="projects-marketplace-grid">
             {workspaces.map((workspace) => {
-              const milestones = Array.isArray(
-                workspace.contract_milestones
-              )
-                ? workspace.contract_milestones
-                : [];
+              const workspaceMilestones = milestones.filter(
+                (milestone) =>
+                  milestone.contract_id === workspace.contract_id
+              );
 
-              const completed = milestones.filter(
+              const completed = workspaceMilestones.filter(
                 (milestone) =>
                   milestone.status === "approved" ||
                   milestone.status === "paid"
@@ -90,8 +121,8 @@ export default async function ActiveProjectsPage() {
                   <h2>{workspace.title}</h2>
 
                   <p>
-                    {completed} of {milestones.length} milestones
-                    completed
+                    {completed} of {workspaceMilestones.length}{" "}
+                    milestones completed
                   </p>
 
                   <small>
@@ -114,7 +145,9 @@ export default async function ActiveProjectsPage() {
         ) : (
           <section className="projects-empty-state">
             <CheckCircle2 size={30} />
+
             <h2>No active projects yet</h2>
+
             <p>
               A project appears here after its contract has been
               signed by both parties.
