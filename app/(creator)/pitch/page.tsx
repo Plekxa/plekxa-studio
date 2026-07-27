@@ -35,7 +35,7 @@ export default function PitchProjectPage() {
     }
 
     const { error } = await supabase.from("proposals").insert({
-      creator_id: user.id,
+      creator_user_id: user.id,
       title,
       summary,
       description,

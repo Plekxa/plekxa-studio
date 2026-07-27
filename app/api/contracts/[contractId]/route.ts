@@ -38,6 +38,7 @@ export async function GET(
         template_id,
         project_id,
         creator_id,
+        creator_user_id,
         project_title,
         contract_number,
         status,
@@ -90,7 +91,7 @@ export async function GET(
 
       `)
       .eq("id", contractId)
-      .eq("creator_id", user.id)
+      .eq("creator_user_id", user.id)
       .maybeSingle();
 
     if (error) {

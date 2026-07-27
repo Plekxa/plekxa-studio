@@ -33,6 +33,7 @@ export async function GET() {
         template_id,
         project_id,
         creator_id,
+        creator_user_id,
         project_title,
         contract_number,
         status,
@@ -73,7 +74,7 @@ export async function GET() {
           signed_at
         )
       `)
-      .eq("creator_id", user.id)
+      .eq("creator_user_id", user.id)
       .order("created_at", { ascending: false });
 
     if (error) {

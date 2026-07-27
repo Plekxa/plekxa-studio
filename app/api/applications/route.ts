@@ -31,7 +31,7 @@ export async function GET() {
       .select(`
         id,
         project_id,
-        creator_id,
+        creator_user_id,
         status,
         cover_letter,
         portfolio_url,
@@ -46,7 +46,7 @@ export async function GET() {
           title
         )
       `)
-      .eq("creator_id", user.id)
+      .eq("creator_user_id", user.id)
       .order("applied_at", { ascending: false });
 
     if (error) {
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         .from("creator_applications")
         .select("id, status")
         .eq("project_id", projectId)
-        .eq("creator_id", user.id)
+        .eq("creator_user_id", user.id)
         .in("status", ["pending", "under_review", "accepted"])
         .maybeSingle();
 
@@ -168,7 +168,7 @@ export async function POST(request: Request) {
       .from("creator_applications")
       .insert({
         project_id: projectId,
-        creator_id: user.id,
+        creator_user_id: user.id,
         status: "pending",
         cover_letter: coverLetter,
         portfolio_url: portfolioUrl,
@@ -253,7 +253,7 @@ export async function PATCH(request: Request) {
         .from("creator_applications")
         .select("id, creator_id, status")
         .eq("id", applicationId)
-        .eq("creator_id", user.id)
+        .eq("creator_user_id", user.id)
         .maybeSingle();
 
     if (applicationError) {

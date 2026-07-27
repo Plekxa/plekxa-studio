@@ -47,7 +47,7 @@ export default async function ProjectPage({
       supabase
         .from("creator_applications")
         .select("id, status, applied_at")
-        .eq("creator_id", user.id)
+        .eq("creator_user_id", user.id)
         .eq("project_id", project.id)
         .in("status", [
           "pending",
