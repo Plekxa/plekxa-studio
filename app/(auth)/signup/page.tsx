@@ -15,18 +15,24 @@ export default function SignupPage() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setMessage("");
+  event.preventDefault();
+  setMessage("");
 
-    if (!acceptedTerms) {
-      setMessage("Please agree to the Terms of Use, Privacy Policy and Cookie Policy.");
-      return;
-    }
+  if (!acceptedTerms) {
+    setMessage(
+      "Please agree to the Terms of Use, Privacy Policy and Cookie Policy."
+    );
+    return;
+  }
 
-    setSubmitting(true);
+  setSubmitting(true);
 
-    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || window.location.origin).replace(/\/$/, "");
-    const { data, error } = await supabase.auth.signUp({
+  try {
+    const siteUrl = (
+      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+    ).replace(/\/$/, "");
+
+    const signupPromise = supabase.auth.signUp({
       email: email.trim().toLowerCase(),
       password,
       options: {
@@ -40,9 +46,33 @@ export default function SignupPage() {
       },
     });
 
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      window.setTimeout(() => {
+        reject(new Error("SIGNUP_TIMEOUT"));
+      }, 15000);
+    });
+
+    const { data, error } = await Promise.race([
+      signupPromise,
+      timeoutPromise,
+    ]);
+
     if (error) {
-      setMessage(error.message);
-      setSubmitting(false);
+      console.error("Signup error:", error);
+
+      if (
+        error.status === 429 ||
+        error.message?.toLowerCase().includes("rate limit")
+      ) {
+        setMessage(
+          "Too many confirmation emails have been requested. Please wait before trying again."
+        );
+      } else {
+        setMessage(
+          error.message || "We could not create your account. Please try again."
+        );
+      }
+
       return;
     }
 
@@ -51,9 +81,30 @@ export default function SignupPage() {
       return;
     }
 
-    setMessage("Account created. Check your email and click the confirmation link to continue.");
+    setMessage(
+      "Account created. Check your email and click the confirmation link to continue."
+    );
+  } catch (error) {
+    console.error("Signup request failed:", error);
+
+    if (
+      error instanceof Error &&
+      error.message === "SIGNUP_TIMEOUT"
+    ) {
+      setMessage(
+        "The signup server is taking too long to respond. Please wait a moment and try again."
+      );
+    } else {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "We could not create your account. Please try again."
+      );
+    }
+  } finally {
     setSubmitting(false);
   }
+}
 
   return (
     <main className="auth-page">

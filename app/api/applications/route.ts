@@ -292,17 +292,27 @@ export async function PATCH(request: Request) {
       success: true,
       message: "Your application has been withdrawn.",
     });
-  } catch (error) {
-    console.error("Applications PATCH error:", error);
+  } catch (error: unknown) {
+  console.error("Applications POST error:", error);
 
-    return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Could not withdraw your application.",
-      },
-      { status: 500 }
-    );
+  let message = "Could not submit your application.";
+
+  if (error instanceof Error) {
+    message = error.message;
+  } else if (
+    error &&
+    typeof error === "object" &&
+    "message" in error &&
+    typeof error.message === "string"
+  ) {
+    message = error.message;
   }
+
+  return NextResponse.json(
+    {
+      error: message,
+    },
+    { status: 500 }
+  );
+}
 }
