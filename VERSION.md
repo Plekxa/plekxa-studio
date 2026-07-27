@@ -1,6 +1,7 @@
-# Plekxa Studio v1.2
+# Plekxa Studio v1.2.4
 
-- Fixed creator account signup and confirmation callback.
-- Unified Studio and Enterprise OS operational data in one Supabase project.
-- Added shared project, application, proposal, contract, notification, work, experience, earnings and payout schema.
-- Added creator-only Row Level Security and administrator visibility.
+- Added Forgot password link to the sign-in page.
+- Added password reset email request flow.
+- Added secure reset callback and new-password page.
+- Added expired-link handling and successful reset confirmation.
+- Retains the v1.2.3 unified Studio/Enterprise database migration fixes.

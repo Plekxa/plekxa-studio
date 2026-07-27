@@ -57,7 +57,12 @@ export default function LoginPage() {
           </label>
 
           <label>
-            Password
+            <span className="auth-label-row">
+              <span>Password</span>
+              <Link className="auth-inline-link" href="/forgot-password">
+                Forgot password?
+              </Link>
+            </span>
             <input
               type="password"
               value={password}
