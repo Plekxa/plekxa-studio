@@ -1,7 +1,3 @@
-# Plekxa Studio v1.2.4
+# Plekxa Studio v1.3.0
 
-- Added Forgot password link to the sign-in page.
-- Added password reset email request flow.
-- Added secure reset callback and new-password page.
-- Added expired-link handling and successful reset confirmation.
-- Retains the v1.2.3 unified Studio/Enterprise database migration fixes.
+Stabilisation release: server-side signup, explicit creator sync, resilient application writes, real database errors, and removal of blocking auth triggers.

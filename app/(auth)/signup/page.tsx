@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useMemo, useState } from "react";
-import { createClient } from "../../../lib/supabase/client";
+import { FormEvent, useState } from "react";
 
 export default function SignupPage() {
-  const supabase = useMemo(() => createClient(), []);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,96 +13,45 @@ export default function SignupPage() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  setMessage("");
+    event.preventDefault();
+    setMessage("");
 
-  if (!acceptedTerms) {
-    setMessage(
-      "Please agree to the Terms of Use, Privacy Policy and Cookie Policy."
-    );
-    return;
-  }
+    if (!acceptedTerms) {
+      setMessage("Please agree to the Terms of Use, Privacy Policy and Cookie Policy.");
+      return;
+    }
 
-  setSubmitting(true);
+    setSubmitting(true);
 
-  try {
-    const siteUrl = (
-      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
-    ).replace(/\/$/, "");
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          email,
+          password,
+          creatorType,
+          acceptedTerms,
+        }),
+      });
 
-    const signupPromise = supabase.auth.signUp({
-      email: email.trim().toLowerCase(),
-      password,
-      options: {
-        emailRedirectTo: `${siteUrl}/auth/callback?next=/dashboard`,
-        data: {
-          full_name: fullName.trim(),
-          creator_type: creatorType,
-          account_type: "creator",
-          terms_accepted_at: new Date().toISOString(),
-        },
-      },
-    });
+      const result = (await response.json()) as { error?: string };
 
-    const timeoutPromise = new Promise<never>((_, reject) => {
-      window.setTimeout(() => {
-        reject(new Error("SIGNUP_TIMEOUT"));
-      }, 15000);
-    });
-
-    const { data, error } = await Promise.race([
-      signupPromise,
-      timeoutPromise,
-    ]);
-
-    if (error) {
-      console.error("Signup error:", error);
-
-      if (
-        error.status === 429 ||
-        error.message?.toLowerCase().includes("rate limit")
-      ) {
-        setMessage(
-          "Too many confirmation emails have been requested. Please wait before trying again."
-        );
-      } else {
-        setMessage(
-          error.message || "We could not create your account. Please try again."
-        );
+      if (!response.ok) {
+        setMessage(result.error || "Could not create your account.");
+        return;
       }
 
-      return;
+      setMessage("Account created. You can now sign in.");
+      window.setTimeout(() => window.location.assign("/login?created=1"), 900);
+    } catch (error) {
+      console.error("Signup request failed:", error);
+      setMessage("Could not reach the signup service. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
-
-    if (data.session) {
-      window.location.assign("/dashboard");
-      return;
-    }
-
-    setMessage(
-      "Account created. Check your email and click the confirmation link to continue."
-    );
-  } catch (error) {
-    console.error("Signup request failed:", error);
-
-    if (
-      error instanceof Error &&
-      error.message === "SIGNUP_TIMEOUT"
-    ) {
-      setMessage(
-        "The signup server is taking too long to respond. Please wait a moment and try again."
-      );
-    } else {
-      setMessage(
-        error instanceof Error
-          ? error.message
-          : "We could not create your account. Please try again."
-      );
-    }
-  } finally {
-    setSubmitting(false);
   }
-}
 
   return (
     <main className="auth-page">

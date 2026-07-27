@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,62 +11,65 @@ type SubmitApplicationBody = {
   portfolioUrl?: string;
 };
 
+type WithdrawApplicationBody = {
+  applicationId?: string;
+};
+
+type DbError = { code?: string; message?: string; details?: string; hint?: string };
+
+function errorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error) return error.message;
+  if (error && typeof error === "object") {
+    const dbError = error as DbError;
+    return [dbError.message, dbError.details, dbError.hint].filter(Boolean).join(" ") || fallback;
+  }
+  return fallback;
+}
+
+async function requireUser() {
+  const sessionClient = await createClient();
+  const { data: { user }, error } = await sessionClient.auth.getUser();
+  return { user, error };
+}
+
+async function enterpriseCreatorId(userId: string): Promise<string | null> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("creator_profiles")
+    .select("id")
+    .eq("user_id", userId)
+    .maybeSingle();
+  return data?.id ?? null;
+}
+
 export async function GET() {
   try {
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
+    const { user, error: authError } = await requireUser();
     if (authError || !user) {
-      return NextResponse.json(
-        { error: "You must be signed in." },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "You must be signed in." }, { status: 401 });
     }
 
-    const { data, error } = await supabase
+    const admin = createAdminClient();
+    let result = await admin
       .from("creator_applications")
-      .select(`
-        id,
-        project_id,
-        creator_user_id,
-        status,
-        cover_letter,
-        portfolio_url,
-        review_notes,
-        rejection_reason,
-        applied_at,
-        reviewed_at,
-        withdrawn_at,
-        updated_at,
-        projects (
-          id,
-          title
-        )
-      `)
+      .select("*")
       .eq("creator_user_id", user.id)
       .order("applied_at", { ascending: false });
 
-    if (error) {
-      throw error;
+    if (result.error?.code === "42703" || result.error?.message?.includes("creator_user_id")) {
+      result = await admin
+        .from("creator_applications")
+        .select("*")
+        .eq("creator_id", user.id)
+        .order("applied_at", { ascending: false });
     }
 
-    return NextResponse.json({
-      applications: data ?? [],
-    });
+    if (result.error) throw result.error;
+    return NextResponse.json({ applications: result.data ?? [] });
   } catch (error) {
     console.error("Applications GET error:", error);
-
     return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Could not load applications.",
-      },
+      { error: errorMessage(error, "Could not load applications.") },
       { status: 500 }
     );
   }
@@ -73,246 +77,145 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
+    const { user, error: authError } = await requireUser();
     if (authError || !user) {
-      return NextResponse.json(
-        { error: "You must be signed in." },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "You must be signed in." }, { status: 401 });
     }
 
     const body = (await request.json()) as SubmitApplicationBody;
-
     const projectId = body.projectId?.trim();
     const coverLetter = body.coverLetter?.trim() || null;
     const portfolioUrl = body.portfolioUrl?.trim() || null;
 
     if (!projectId) {
-      return NextResponse.json(
-        { error: "A project ID is required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "A project ID is required." }, { status: 400 });
     }
-
     if (coverLetter && coverLetter.length > 5000) {
-      return NextResponse.json(
-        { error: "Your cover letter must be under 5,000 characters." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Your cover letter must be under 5,000 characters." }, { status: 400 });
     }
-
     if (portfolioUrl) {
       try {
-        const parsedUrl = new URL(portfolioUrl);
-
-        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
-          throw new Error();
-        }
+        const parsed = new URL(portfolioUrl);
+        if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error();
       } catch {
-        return NextResponse.json(
-          { error: "Enter a valid portfolio URL." },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Enter a valid portfolio URL." }, { status: 400 });
       }
     }
 
-    const { data: existingApplication, error: existingError } =
-      await supabase
-        .from("creator_applications")
-        .select("id, status")
-        .eq("project_id", projectId)
-        .eq("creator_user_id", user.id)
-        .in("status", ["pending", "under_review", "accepted"])
-        .maybeSingle();
-
-    if (existingError) {
-      throw existingError;
-    }
-
-    if (existingApplication) {
-      return NextResponse.json(
-        {
-          error:
-            existingApplication.status === "accepted"
-              ? "You have already been accepted for this project."
-              : "You already have an active application for this project.",
-        },
-        { status: 409 }
-      );
-    }
-
-    const { data: project, error: projectError } = await supabase
+    const admin = createAdminClient();
+    const { data: project, error: projectError } = await admin
       .from("projects")
-      .select("id, title")
+      .select("*")
       .eq("id", projectId)
       .maybeSingle();
+    if (projectError) throw projectError;
+    if (!project) return NextResponse.json({ error: "This project could not be found." }, { status: 404 });
 
-    if (projectError) {
-      throw projectError;
-    }
-
-    if (!project) {
-      return NextResponse.json(
-        { error: "This project could not be found." },
-        { status: 404 }
-      );
-    }
-
-    const { data: application, error: insertError } = await supabase
-      .from("creator_applications")
-      .insert({
+    const profileId = await enterpriseCreatorId(user.id);
+    const candidates: Record<string, unknown>[] = [
+      {
+        project_id: projectId,
+        creator_user_id: user.id,
+        creator_id: profileId,
+        status: "pending",
+        cover_letter: coverLetter,
+        portfolio_url: portfolioUrl,
+      },
+      {
         project_id: projectId,
         creator_user_id: user.id,
         status: "pending",
         cover_letter: coverLetter,
         portfolio_url: portfolioUrl,
-      })
-      .select(`
-        id,
-        project_id,
-        status,
-        cover_letter,
-        portfolio_url,
-        applied_at,
-        updated_at
-      `)
-      .single();
+      },
+      {
+        project_id: projectId,
+        creator_id: user.id,
+        status: "pending",
+        cover_letter: coverLetter,
+        portfolio_url: portfolioUrl,
+      },
+    ];
 
-    if (insertError) {
-      if (insertError.code === "23505") {
-        return NextResponse.json(
-          { error: "You already have an active application." },
-          { status: 409 }
-        );
+    let application: Record<string, unknown> | null = null;
+    let lastError: unknown = null;
+
+    for (const candidate of candidates) {
+      const payload = Object.fromEntries(Object.entries(candidate).filter(([, value]) => value !== null));
+      const { data, error } = await admin
+        .from("creator_applications")
+        .insert(payload)
+        .select("*")
+        .single();
+
+      if (!error) {
+        application = data;
+        break;
       }
-
-      throw insertError;
+      if (error.code === "23505") {
+        return NextResponse.json({ error: "You already have an active application for this project." }, { status: 409 });
+      }
+      lastError = error;
     }
 
+    if (!application) throw lastError;
+
+    const title = String(project.title || project.name || "this project");
     return NextResponse.json(
-      {
-        success: true,
-        message: `Your application for ${project.title} has been submitted.`,
-        application,
-      },
+      { success: true, message: `Your application for ${title} has been submitted.`, application },
       { status: 201 }
     );
   } catch (error) {
     console.error("Applications POST error:", error);
-
     return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Could not submit your application.",
-      },
+      { error: errorMessage(error, "Could not submit your application.") },
       { status: 500 }
     );
   }
 }
 
-type WithdrawApplicationBody = {
-  applicationId?: string;
-};
-
 export async function PATCH(request: Request) {
   try {
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
+    const { user, error: authError } = await requireUser();
     if (authError || !user) {
-      return NextResponse.json(
-        { error: "You must be signed in." },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "You must be signed in." }, { status: 401 });
     }
 
     const body = (await request.json()) as WithdrawApplicationBody;
     const applicationId = body.applicationId?.trim();
-
     if (!applicationId) {
-      return NextResponse.json(
-        { error: "An application ID is required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "An application ID is required." }, { status: 400 });
     }
 
-    const { data: application, error: applicationError } =
-      await supabase
-        .from("creator_applications")
-        .select("id, creator_id, status")
-        .eq("id", applicationId)
-        .eq("creator_user_id", user.id)
-        .maybeSingle();
+    const admin = createAdminClient();
+    const { data: application, error } = await admin
+      .from("creator_applications")
+      .select("*")
+      .eq("id", applicationId)
+      .maybeSingle();
+    if (error) throw error;
+    if (!application) return NextResponse.json({ error: "Application not found." }, { status: 404 });
 
-    if (applicationError) {
-      throw applicationError;
+    const profileId = await enterpriseCreatorId(user.id);
+    const belongsToUser = application.creator_user_id === user.id || application.creator_id === user.id || application.creator_id === profileId;
+    if (!belongsToUser) return NextResponse.json({ error: "Application not found." }, { status: 404 });
+
+    if (!["pending", "submitted", "under_review"].includes(application.status)) {
+      return NextResponse.json({ error: "Only pending or under-review applications can be withdrawn." }, { status: 409 });
     }
 
-    if (!application) {
-      return NextResponse.json(
-        { error: "Application not found." },
-        { status: 404 }
-      );
-    }
+    const { error: updateError } = await admin
+      .from("creator_applications")
+      .update({ status: "withdrawn", withdrawn_at: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .eq("id", applicationId);
+    if (updateError) throw updateError;
 
-    if (!["pending", "under_review"].includes(application.status)) {
-      return NextResponse.json(
-        {
-          error:
-            "Only pending or under-review applications can be withdrawn.",
-        },
-        { status: 409 }
-      );
-    }
-
-    const { error: withdrawError } = await supabase.rpc(
-      "withdraw_creator_application",
-      {
-        application_uuid: applicationId,
-      }
+    return NextResponse.json({ success: true, message: "Your application has been withdrawn." });
+  } catch (error) {
+    console.error("Applications PATCH error:", error);
+    return NextResponse.json(
+      { error: errorMessage(error, "Could not withdraw your application.") },
+      { status: 500 }
     );
-
-    if (withdrawError) {
-      throw withdrawError;
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: "Your application has been withdrawn.",
-    });
-  } catch (error: unknown) {
-  console.error("Applications POST error:", error);
-
-  let message = "Could not submit your application.";
-
-  if (error instanceof Error) {
-    message = error.message;
-  } else if (
-    error &&
-    typeof error === "object" &&
-    "message" in error &&
-    typeof error.message === "string"
-  ) {
-    message = error.message;
   }
-
-  return NextResponse.json(
-    {
-      error: message,
-    },
-    { status: 500 }
-  );
-}
 }
