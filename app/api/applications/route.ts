@@ -50,22 +50,40 @@ export async function GET() {
     }
 
     const admin = createAdminClient();
-    let result = await admin
+    const profileId = await enterpriseCreatorId(user.id);
+    const filters = [
+      `creator_user_id.eq.${user.id}`,
+      `creator_id.eq.${user.id}`,
+      ...(profileId ? [`creator_id.eq.${profileId}`] : []),
+    ];
+
+    const { data: rows, error } = await admin
       .from("creator_applications")
       .select("*")
-      .eq("creator_user_id", user.id)
+      .or(filters.join(","))
       .order("applied_at", { ascending: false });
 
-    if (result.error?.code === "42703" || result.error?.message?.includes("creator_user_id")) {
-      result = await admin
-        .from("creator_applications")
+    if (error) throw error;
+
+    const applications = rows ?? [];
+    const projectIds = [...new Set(applications.map((row) => row.project_id).filter(Boolean))];
+    let projectMap = new Map<string, Record<string, unknown>>();
+
+    if (projectIds.length) {
+      const { data: projects, error: projectsError } = await admin
+        .from("projects")
         .select("*")
-        .eq("creator_id", user.id)
-        .order("applied_at", { ascending: false });
+        .in("id", projectIds);
+      if (projectsError) throw projectsError;
+      projectMap = new Map((projects ?? []).map((project) => [String(project.id), project]));
     }
 
-    if (result.error) throw result.error;
-    return NextResponse.json({ applications: result.data ?? [] });
+    return NextResponse.json({
+      applications: applications.map((application) => ({
+        ...application,
+        projects: projectMap.get(String(application.project_id)) ?? null,
+      })),
+    });
   } catch (error) {
     console.error("Applications GET error:", error);
     return NextResponse.json(

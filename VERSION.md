@@ -1,3 +1,3 @@
-# Plekxa Studio v1.3.0
+# Plekxa Studio v1.4
 
-Stabilisation release: server-side signup, explicit creator sync, resilient application writes, real database errors, and removal of blocking auth triggers.
+Shared application read/write repair. Creator applications are read using both Auth and Enterprise creator identifiers and are enriched with live project data.
