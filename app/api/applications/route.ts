@@ -130,11 +130,16 @@ export async function POST(request: Request) {
     if (!project) return NextResponse.json({ error: "This project could not be found." }, { status: 404 });
 
     const profileId = await enterpriseCreatorId(user.id);
+    const { data: portalProfile } = await admin.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
+    const applicantName = portalProfile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || null;
+    const applicantEmail = user.email || null;
     const candidates: Record<string, unknown>[] = [
       {
         project_id: projectId,
         creator_user_id: user.id,
         creator_id: profileId,
+        applicant_name: applicantName,
+        applicant_email: applicantEmail,
         status: "pending",
         cover_letter: coverLetter,
         portfolio_url: portfolioUrl,
@@ -142,6 +147,8 @@ export async function POST(request: Request) {
       {
         project_id: projectId,
         creator_user_id: user.id,
+        applicant_name: applicantName,
+        applicant_email: applicantEmail,
         status: "pending",
         cover_letter: coverLetter,
         portfolio_url: portfolioUrl,
@@ -149,6 +156,8 @@ export async function POST(request: Request) {
       {
         project_id: projectId,
         creator_id: user.id,
+        applicant_name: applicantName,
+        applicant_email: applicantEmail,
         status: "pending",
         cover_letter: coverLetter,
         portfolio_url: portfolioUrl,

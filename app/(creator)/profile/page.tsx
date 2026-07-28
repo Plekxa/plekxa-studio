@@ -1,8 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Camera, MapPin, Star } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 type CreatorProfile = {
   full_name: string;
@@ -29,7 +28,6 @@ const emptyProfile: CreatorProfile = {
 };
 
 export default function CreatorProfilePage() {
-  const supabase = useMemo(() => createClient(), []);
   const [profile, setProfile] = useState<CreatorProfile>(emptyProfile);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
@@ -38,30 +36,12 @@ export default function CreatorProfilePage() {
 
   useEffect(() => {
     async function loadProfile() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      setEmail(user.email ?? "");
-
-      const { data, error } = await supabase
-        .from("profiles")
-        .select(
-          "full_name, professional_name, creator_type, bio, location, availability, avatar_url, skills, genres"
-        )
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (error) {
-        setMessage(error.message);
-      }
-
-      if (data) {
+      try {
+        const response = await fetch("/api/profile", { cache: "no-store" });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Could not load profile.");
+        const data = result.profile;
+        setEmail(data.email ?? "");
         setProfile({
           full_name: data.full_name ?? "",
           professional_name: data.professional_name ?? "",
@@ -70,20 +50,17 @@ export default function CreatorProfilePage() {
           location: data.location ?? "",
           availability: data.availability ?? "",
           avatar_url: data.avatar_url ?? "",
-          skills: Array.isArray(data.skills)
-            ? data.skills.join(", ")
-            : data.skills ?? "",
-          genres: Array.isArray(data.genres)
-            ? data.genres.join(", ")
-            : data.genres ?? "",
+          skills: Array.isArray(data.skills) ? data.skills.join(", ") : "",
+          genres: Array.isArray(data.genres) ? data.genres.join(", ") : "",
         });
+      } catch (error) {
+        setMessage(error instanceof Error ? error.message : "Could not load profile.");
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
-
-    loadProfile();
-  }, [supabase]);
+    void loadProfile();
+  }, []);
 
   function updateField(
     field: keyof CreatorProfile,
@@ -100,47 +77,23 @@ export default function CreatorProfilePage() {
     setSaving(true);
     setMessage("");
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const skills = profile.skills.split(",").map((item) => item.trim()).filter(Boolean);
+    const genres = profile.genres.split(",").map((item) => item.trim()).filter(Boolean);
 
-    if (!user) {
-      setMessage("You must be signed in.");
-      setSaving(false);
-      return;
-    }
-
-    const skills = profile.skills
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    const genres = profile.genres
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    const { error } = await supabase.from("profiles").upsert({
-      id: user.id,
-      full_name: profile.full_name,
-      professional_name: profile.professional_name,
-      creator_type: profile.creator_type,
-      bio: profile.bio,
-      location: profile.location,
-      availability: profile.availability,
-      avatar_url: profile.avatar_url,
-      skills,
-      genres,
-      updated_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      setMessage(error.message);
-    } else {
+    try {
+      const response = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...profile, skills, genres }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not save profile.");
       setMessage("Profile saved.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not save profile.");
+    } finally {
+      setSaving(false);
     }
-
-    setSaving(false);
   }
 
   const initials =

@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 
 export default function PitchProjectPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -25,36 +23,34 @@ export default function PitchProjectPage() {
     setSubmitting(true);
     setMessage("");
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      router.push("/login");
-      return;
-    }
-
-    const { error } = await supabase.from("proposals").insert({
-      creator_user_id: user.id,
-      title,
-      summary,
-      description,
-      department,
-      format: format || null,
-      estimated_timeline: timeline || null,
-      estimated_budget: budget ? Number(budget) : null,
-      portfolio_url: portfolioUrl || null,
-      status: "submitted",
-    });
-
-    if (error) {
-      setMessage(error.message);
+    try {
+      const response = await fetch("/api/proposals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          summary,
+          description,
+          department,
+          format,
+          estimated_timeline: timeline,
+          estimated_budget: budget,
+          portfolio_url: portfolioUrl,
+        }),
+      });
+      const result = await response.json();
+      if (response.status === 401) {
+        router.push("/login");
+        return;
+      }
+      if (!response.ok) throw new Error(result.error || "Could not submit proposal.");
+      router.push("/proposals");
+      router.refresh();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not submit proposal.");
+    } finally {
       setSubmitting(false);
-      return;
     }
-
-    router.push("/proposals");
-    router.refresh();
   }
 
   return (

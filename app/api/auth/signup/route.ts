@@ -78,28 +78,28 @@ export async function POST(request: Request) {
       creator_type: creatorType,
       updated_at: termsAcceptedAt,
     };
-    const portalResult = await admin.from("profiles").upsert(portalProfile, { onConflict: "id" });
-    if (portalResult.error) {
-      console.warn("Studio profiles sync skipped:", portalResult.error.message);
-    }
+    const { data: existingPortal } = await admin.from("profiles").select("id").eq("id", userId).maybeSingle();
+    const portalResult = existingPortal
+      ? await admin.from("profiles").update(portalProfile).eq("id", userId)
+      : await admin.from("profiles").insert({ ...portalProfile, created_at: termsAcceptedAt });
+    if (portalResult.error) console.warn("Studio profiles sync skipped:", portalResult.error.message);
 
-    // Best-effort Enterprise OS creator record using the established Enterprise fields.
-    const enterpriseResult = await admin.from("creator_profiles").upsert(
-      {
-        user_id: userId,
-        legal_name: fullName,
-        email,
-        metadata: {
-          creator_type: creatorType,
-          terms_accepted_at: termsAcceptedAt,
-          source: "plekxa-studio",
-        },
+    const enterprisePayload = {
+      user_id: userId,
+      legal_name: fullName,
+      email,
+      metadata: {
+        creator_type: creatorType,
+        terms_accepted_at: termsAcceptedAt,
+        source: "plekxa-studio",
       },
-      { onConflict: "user_id" }
-    );
-    if (enterpriseResult.error) {
-      console.warn("Enterprise creator sync skipped:", enterpriseResult.error.message);
-    }
+      updated_at: termsAcceptedAt,
+    };
+    const { data: existingCreator } = await admin.from("creator_profiles").select("id").eq("user_id", userId).maybeSingle();
+    const enterpriseResult = existingCreator
+      ? await admin.from("creator_profiles").update(enterprisePayload).eq("id", existingCreator.id)
+      : await admin.from("creator_profiles").insert({ ...enterprisePayload, created_at: termsAcceptedAt });
+    if (enterpriseResult.error) console.warn("Enterprise creator sync skipped:", enterpriseResult.error.message);
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
