@@ -7,7 +7,10 @@ create extension if not exists pgcrypto;
 -- Enterprise OS creator_profiles. Studio keeps its existing API while Admin
 -- remains authoritative through creator_profiles.
 -- ---------------------------------------------------------------------------
-create unique index if not exists creator_profiles_user_id_unique on public.creator_profiles(user_id) where user_id is not null;
+-- ON CONFLICT (user_id) requires a non-partial unique index. PostgreSQL
+-- still permits multiple NULL values in a normal unique index.
+drop index if exists public.creator_profiles_user_id_unique;
+create unique index creator_profiles_user_id_unique on public.creator_profiles(user_id);
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,

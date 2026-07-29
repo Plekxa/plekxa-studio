@@ -33,6 +33,7 @@ export default function CreatorProfilePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [stats, setStats] = useState({ completed_projects: 0, portfolio_credits: 0 });
 
   useEffect(() => {
     async function loadProfile() {
@@ -60,6 +61,17 @@ export default function CreatorProfilePage() {
       }
     }
     void loadProfile();
+    fetch("/api/dashboard", { cache: "no-store" })
+      .then(async (response) => {
+        const result = await response.json();
+        if (response.ok && result.metrics) {
+          setStats({
+            completed_projects: Number(result.metrics.completed_projects || 0),
+            portfolio_credits: Number(result.metrics.portfolio_credits || 0),
+          });
+        }
+      })
+      .catch(() => {});
   }, []);
 
   function updateField(
@@ -161,17 +173,17 @@ export default function CreatorProfilePage() {
           <div className="creator-profile-meta">
             <div>
               <span>Completed projects</span>
-              <strong>0</strong>
+              <strong>{stats.completed_projects}</strong>
             </div>
 
             <div>
               <span>Portfolio credits</span>
-              <strong>0</strong>
+              <strong>{stats.portfolio_credits}</strong>
             </div>
 
             <div>
               <span>Profile completion</span>
-              <strong>60%</strong>
+              <strong>{Math.round(([profile.full_name, profile.professional_name, profile.creator_type, profile.bio, profile.location, profile.availability, profile.avatar_url, profile.skills, profile.genres].filter(Boolean).length / 9) * 100)}%</strong>
             </div>
           </div>
         </aside>
@@ -365,7 +377,7 @@ export default function CreatorProfilePage() {
 
               <article>
                 <span>Verified credits</span>
-                <strong>0</strong>
+                <strong>{stats.portfolio_credits}</strong>
                 <small>Published Plekxa contributions</small>
               </article>
             </div>

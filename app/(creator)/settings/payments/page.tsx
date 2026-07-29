@@ -1,13 +1,12 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   BadgeCheck,
   Building2,
   ExternalLink,
   Mail,
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 type PayoutStatus = {
   stripeConnected: boolean;
@@ -26,8 +25,6 @@ const initialStatus: PayoutStatus = {
 };
 
 export default function PaymentsPage() {
-  const supabase = useMemo(() => createClient(), []);
-
   const [status, setStatus] = useState<PayoutStatus>(initialStatus);
   const [paypalEmail, setPaypalEmail] = useState("");
   const [loading, setLoading] = useState(true);
@@ -100,39 +97,23 @@ export default function PaymentsPage() {
     setSavingPaypal(true);
     setMessage("");
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      setMessage("You must be signed in.");
-      setSavingPaypal(false);
-      return;
-    }
-
     const normalizedEmail = paypalEmail.trim().toLowerCase();
 
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        paypal_email: normalizedEmail,
-        preferred_payout_method: "paypal",
-      })
-      .eq("id", user.id);
-
-    if (error) {
-      setMessage(error.message);
+    try {
+      const response = await fetch("/api/stripe/status", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paypalEmail: normalizedEmail }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not save PayPal email.");
+      setStatus((current) => ({ ...current, paypalEmail: result.paypalEmail, preferredPayoutMethod: result.preferredPayoutMethod }));
+      setMessage("PayPal email saved.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not save PayPal email.");
       setSavingPaypal(false);
       return;
     }
-
-    setStatus((current) => ({
-      ...current,
-      paypalEmail: normalizedEmail,
-      preferredPayoutMethod: "paypal",
-    }));
-
-    setMessage("PayPal email saved.");
     setSavingPaypal(false);
   }
 
