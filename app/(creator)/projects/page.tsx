@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Search } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 type ProjectsPageProps = {
   searchParams: Promise<{
@@ -45,18 +46,35 @@ export default async function ProjectsPage({
     projectsQuery = projectsQuery.eq("department", department);
   }
 
-  const [
+  const admin = createAdminClient();
+
+const { data: creatorProfile } = await admin
+  .from("creator_profiles")
+  .select("id")
+  .eq("user_id", user.id)
+  .maybeSingle();
+
+const applicationFilters = [
+  `creator_user_id.eq.${user.id}`,
+  `creator_id.eq.${user.id}`,
+];
+
+if (creatorProfile?.id) {
+  applicationFilters.push(`creator_id.eq.${creatorProfile.id}`);
+}
+
+const [
   { data: projects, error: projectsError },
   { data: applications },
   { data: departmentRows },
 ] = await Promise.all([
   projectsQuery,
 
-  supabase
-  .from("creator_applications")
-  .select("project_id, status")
-  .eq("creator_user_id", user.id)
-  .in("status", ["pending", "under_review", "accepted"]),
+  admin
+    .from("creator_applications")
+    .select("project_id, status")
+    .or(applicationFilters.join(","))
+    .in("status", ["pending", "under_review", "accepted"]),
 
   supabase
     .from("projects")
