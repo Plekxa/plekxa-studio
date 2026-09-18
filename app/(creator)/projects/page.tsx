@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Search } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 
 type ProjectsPageProps = {
   searchParams: Promise<{
@@ -31,9 +30,9 @@ export default async function ProjectsPage({
   let projectsQuery = supabase
     .from("projects")
     .select(
-      "id, title, slug, summary, department, deadline, created_at"
+      "id, title, slug, summary, department, deadline, application_opens_at, application_closes_at, pay_amount, pay_currency, budget, created_at"
     )
-    .eq("status", "open")
+    .in("status", ["open", "applications_open"])
     .order("created_at", { ascending: false });
 
   if (search) {
@@ -46,40 +45,23 @@ export default async function ProjectsPage({
     projectsQuery = projectsQuery.eq("department", department);
   }
 
-  const admin = createAdminClient();
-
-const { data: creatorProfile } = await admin
-  .from("creator_profiles")
-  .select("id")
-  .eq("user_id", user.id)
-  .maybeSingle();
-
-const applicationFilters = [
-  `creator_user_id.eq.${user.id}`,
-  `creator_id.eq.${user.id}`,
-];
-
-if (creatorProfile?.id) {
-  applicationFilters.push(`creator_id.eq.${creatorProfile.id}`);
-}
-
-const [
+  const [
   { data: projects, error: projectsError },
   { data: applications },
   { data: departmentRows },
 ] = await Promise.all([
   projectsQuery,
 
-  admin
-    .from("creator_applications")
-    .select("project_id, status")
-    .or(applicationFilters.join(","))
-    .in("status", ["pending", "under_review", "accepted"]),
+  supabase
+  .from("creator_applications")
+  .select("project_id, status")
+  .eq("creator_user_id", user.id)
+  .in("status", ["pending", "under_review", "accepted"]),
 
   supabase
     .from("projects")
     .select("department")
-    .eq("status", "open"),
+    .in("status", ["open", "applications_open"]),
 ]);
 
   const appliedProjects = new Map(
@@ -177,11 +159,12 @@ const [
 
                   <h2>{project.title}</h2>
                   <p>{project.summary}</p>
+                  <p><strong>Pay: {project.pay_currency || "GBP"} {Number(project.pay_amount ?? project.budget ?? 0).toLocaleString()}</strong></p>
 
-                  {project.deadline ? (
+                  {(project.application_closes_at || project.deadline) ? (
                     <small>
                       Deadline:{" "}
-                      {new Date(project.deadline).toLocaleDateString()}
+                      {new Date(project.application_closes_at || project.deadline).toLocaleDateString()}
                     </small>
                   ) : (
                     <small>Applications currently open</small>

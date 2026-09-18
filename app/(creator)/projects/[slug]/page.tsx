@@ -26,10 +26,10 @@ export default async function ProjectPage({
   const { data: project } = await supabase
     .from("projects")
     .select(
-      "id, title, slug, summary, description, department, deadline, status"
+      "id, title, slug, summary, description, department, deadline, application_opens_at, application_closes_at, pay_amount, pay_currency, pay_notes, budget, status"
     )
     .eq("slug", slug)
-    .eq("status", "open")
+    .in("status", ["open", "applications_open"])
     .single();
 
   if (!project) {
@@ -82,11 +82,13 @@ export default async function ProjectPage({
             </div>
           ) : null}
 
-          {project.deadline ? (
+          <div className="creator-project-description"><h2>Pay / budget</h2><p><strong>{project.pay_currency || "GBP"} {Number(project.pay_amount ?? project.budget ?? 0).toLocaleString()}</strong>{project.pay_notes ? ` — ${project.pay_notes}` : ""}</p></div>
+
+          {(project.application_closes_at || project.deadline) ? (
             <p className="creator-project-deadline">
               Application deadline:{" "}
               {new Date(
-                project.deadline
+                (project.application_closes_at || project.deadline)
               ).toLocaleDateString()}
             </p>
           ) : null}

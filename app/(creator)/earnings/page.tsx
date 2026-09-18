@@ -135,7 +135,7 @@ export default async function EarningsPage() {
 
               <h2>No earnings recorded yet</h2>
               <p>
-                Approved payments and experience royalties will appear here
+                Approved payments, royalties and participation earnings will appear here
                 once they are allocated to your creator account.
               </p>
 

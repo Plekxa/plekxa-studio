@@ -91,11 +91,6 @@ const navSections = [
   icon: ReceiptText,
 },
 {
-  href: "/experiences",
-  label: "My experiences",
-  icon: Images,
-},
-{
   href: "/earnings",
   label: "Earnings",
   icon: BadgePoundSterling,

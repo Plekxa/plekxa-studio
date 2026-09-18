@@ -129,6 +129,19 @@ export async function POST(request: Request) {
     if (projectError) throw projectError;
     if (!project) return NextResponse.json({ error: "This project could not be found." }, { status: 404 });
 
+    // Never trust the marketplace UI alone: application eligibility is enforced server-side.
+    if (!["open", "applications_open"].includes(String(project.status || "").toLowerCase())) {
+      return NextResponse.json({ error: "Applications for this project are not open." }, { status: 409 });
+    }
+    const now = Date.now();
+    if (project.application_opens_at && new Date(project.application_opens_at).getTime() > now) {
+      return NextResponse.json({ error: "Applications for this project have not opened yet." }, { status: 409 });
+    }
+    const closesAt = project.application_closes_at || project.deadline;
+    if (closesAt && new Date(closesAt).getTime() < now) {
+      return NextResponse.json({ error: "Applications for this project are closed." }, { status: 409 });
+    }
+
     const profileId = await enterpriseCreatorId(user.id);
     const { data: portalProfile } = await admin.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
     const applicantName = portalProfile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || null;

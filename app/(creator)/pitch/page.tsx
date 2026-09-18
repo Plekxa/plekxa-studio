@@ -108,18 +108,21 @@ export default function PitchProjectPage() {
                     <option value="Film">Film</option>
                     <option value="Podcast">Podcast</option>
                     <option value="Documentary">Documentary</option>
-                    <option value="Visual Experience">Visual experience</option>
+                    <option value="Visual">Visual</option>
                     <option value="Other">Other</option>
                   </select>
                 </label>
 
                 <label>
                   Format
-                  <input
-                    value={format}
-                    onChange={(event) => setFormat(event.target.value)}
-                    placeholder="Album, series, film, live experience..."
-                  />
+                  <select value={format} onChange={(event) => setFormat(event.target.value)}>
+                    <option value="">Choose one</option>
+                    <option value="Music / audio">Music / audio</option>
+                    <option value="Voice / spoken">Voice / spoken</option>
+                    <option value="Visual / video">Visual / video</option>
+                    <option value="Written / other IP">Written / other IP</option>
+                    <option value="Interactive / emerging">Interactive / emerging</option>
+                  </select>
                 </label>
               </div>
             </div>
