@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | Plekxa Creator Studio",
   },
   description:
-    "Manage creator projects, experiences, contracts and earnings with Plekxa.",
+    "Manage Plekxa opportunities, commissions, deliverables, contracts, Index certificates and earnings.",
   applicationName: "Plekxa Creator Studio",
   icons: {
     icon: "/icon.svg",

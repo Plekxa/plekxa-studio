@@ -69,7 +69,7 @@ export default async function CreatorLandingPage() {
 
             <p>
               Plekxa connects talented creators with original projects,
-              collaborative opportunities and experiences that continue
+              paid creative opportunities and reusable Assets that continue
               generating value after the work is released.
             </p>
 
@@ -154,7 +154,7 @@ export default async function CreatorLandingPage() {
               <CircleDollarSign size={22} />
 
               <div>
-                <span>Royalty and PPR tracking</span>
+                <span>Index participation and earnings tracking</span>
                 <strong>
                   See where your assets are used and how they perform.
                 </strong>
@@ -190,7 +190,7 @@ export default async function CreatorLandingPage() {
               <Lightbulb size={25} />
               <h3>Pitch original ideas</h3>
               <p>
-                Submit concepts for original music, stories and experiences,
+                Submit concepts for original music, visual work and other creative Assets,
                 then track every review and decision.
               </p>
             </article>
@@ -206,10 +206,9 @@ export default async function CreatorLandingPage() {
 
             <article className="creator-feature-card">
               <CircleDollarSign size={25} />
-              <h3>Track royalties and PPR</h3>
+              <h3>Track earnings and Index participation</h3>
               <p>
-                Follow earnings connected to your assets, experiences and
-                completed contributions.
+                Follow project fees and participation earnings connected to your accepted Assets and completed contributions.
               </p>
             </article>
 
@@ -294,7 +293,7 @@ export default async function CreatorLandingPage() {
 
               <div>
                 <span>Visual storytelling</span>
-                <h3>Illustrator for a new cultural experience</h3>
+                <h3>Illustrator for a new visual campaign</h3>
                 <p>Collaborative project · Portfolio required</p>
               </div>
             </article>
@@ -306,7 +305,7 @@ export default async function CreatorLandingPage() {
 
               <div>
                 <span>Original concept</span>
-                <h3>Pitch a new Plekxa experience</h3>
+                <h3>Pitch an original Asset or project idea</h3>
                 <p>Open submission · Multiple disciplines</p>
               </div>
             </article>
@@ -330,12 +329,12 @@ export default async function CreatorLandingPage() {
               </div>
 
               <div>
-                <span>Royalty participation</span>
+                <span>Index participation</span>
                 <strong>Connected</strong>
               </div>
 
               <div>
-                <span>PPR activity</span>
+                <span>Index earnings</span>
                 <strong>Measured</strong>
               </div>
 
@@ -354,10 +353,7 @@ export default async function CreatorLandingPage() {
             <h2>Understand how your work contributes after delivery.</h2>
 
             <p>
-              Creator Studio is being designed to connect each submitted asset
-              to the projects and experiences where it is used. That gives
-              creators a clearer view of their credits, earnings, royalties and
-              performance.
+              Creator Studio connects commissioned work to Projects, accepted Assets, Index certificates and earnings so creators can see what was accepted, what participation applies and what has been paid.
             </p>
 
             <p>

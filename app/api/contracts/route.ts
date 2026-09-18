@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -164,11 +165,7 @@ export async function POST(request: Request) {
       throw error;
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "Your contract has been signed.",
-      result: data,
-    });
+    const admin=createAdminClient();const {data:staff}=await admin.from('staff_members').select('auth_user_id').not('auth_user_id','is',null);if(staff?.length)await admin.from('notifications').insert(staff.map((x:any)=>({recipient_id:x.auth_user_id,audience:'enterprise',type:'contract_signed',title:'Creator signed a contract',message:`Contract ${contractId} has been signed by the creator.`,action_url:'/contracts',entity_type:'contract',entity_id:contractId})));return NextResponse.json({success:true,message:'Your contract has been signed.',result:data});
   } catch (error) {
     console.error("Contract signing error:", error);
 

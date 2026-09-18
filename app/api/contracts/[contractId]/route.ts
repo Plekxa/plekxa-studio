@@ -77,8 +77,7 @@ export async function GET(
           party,
           signature_name,
           signed_at
-        )
-
+        ),
         contract_events (
   id,
   contract_id,
