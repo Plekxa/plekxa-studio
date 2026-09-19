@@ -51,7 +51,7 @@ function formatMoney(amount: number, currency: string) {
 
 function formatDate(value: string | null) {
   if (!value) {
-    return "To be confirmed";
+    return "No fixed expiry";
   }
 
   const date = new Date(value);
@@ -89,6 +89,7 @@ export async function GET(
       .select(`
         id,
         creator_id,
+        creator_user_id,
         project_title,
         contract_number,
         status,
@@ -111,7 +112,7 @@ export async function GET(
         )
       `)
       .eq("id", contractId)
-      .eq("creator_id", user.id)
+      .eq("creator_user_id", user.id)
       .maybeSingle();
 
     if (error) {
@@ -309,7 +310,7 @@ export async function GET(
     </div>
 
     <div>
-      <span>End date</span>
+      <span>Duration</span>
       <strong>
         ${escapeHtml(formatDate(contract.end_date))}
       </strong>
