@@ -30,7 +30,7 @@ export default async function ProjectsPage({
   let projectsQuery = supabase
     .from("projects")
     .select(
-      "id, title, slug, summary, department, deadline, application_opens_at, application_closes_at, pay_amount, pay_currency, budget, created_at"
+      "id, title, slug, summary, department, deadline, application_opens_at, application_closes_at, pay_amount, pay_currency, budget, genre, mood, reserved_asset_id, index_id, created_at"
     )
     .in("status", ["open", "applications_open"])
     .order("created_at", { ascending: false });
@@ -159,7 +159,7 @@ export default async function ProjectsPage({
 
                   <h2>{project.title}</h2>
                   <p>{project.summary}</p>
-                  <p><strong>Pay: {project.pay_currency || "GBP"} {Number(project.pay_amount ?? project.budget ?? 0).toLocaleString()}</strong></p>
+                  <p><strong>Pay: {project.pay_currency || "GBP"} {Number(project.pay_amount ?? project.budget ?? 0).toLocaleString()}</strong></p><p>{project.genre || "Genre TBC"} · {project.mood || "Mood TBC"}</p>
 
                   {(project.application_closes_at || project.deadline) ? (
                     <small>

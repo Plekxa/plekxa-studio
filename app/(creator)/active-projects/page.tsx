@@ -6,6 +6,7 @@ import {
   FolderKanban,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 type Milestone = {
   id: string;
@@ -42,6 +43,9 @@ export default async function ActiveProjectsPage() {
       .eq("creator_id", user.id)
       .in("status", ["active", "paused"])
       .order("created_at", { ascending: false });
+
+  const admin = createAdminClient();
+  const { data: directedProjects } = await admin.from("projects").select("id,title,reserved_asset_code,index_code,status").eq("director_user_id", user.id).order("created_at", {ascending:false});
 
   const contractIds =
     workspaces?.map((workspace) => workspace.contract_id) ?? [];
@@ -82,6 +86,8 @@ export default async function ActiveProjectsPage() {
             deliverables.
           </p>
         </header>
+
+        {directedProjects && directedProjects.length > 0 ? <section style={{marginBottom:32}}><h2>Projects you direct</h2><div className="projects-marketplace-grid">{directedProjects.map((p:any)=><article className="marketplace-project-card" key={p.id}><div className="marketplace-project-meta"><span><FolderKanban size={15}/> Director</span><span className="project-open-badge">{p.status}</span></div><h2>{p.title}</h2><p>{p.reserved_asset_code||"Reserved Asset"} · {p.index_code||"Index reserved"}</p><Link className="button" href={`/directing/${p.id}`}>Open Director room</Link></article>)}</div></section>:null}
 
         {error ? (
           <section className="projects-empty-state">

@@ -25,7 +25,7 @@ export async function GET() {
     const { data, error } = await admin
       .from("proposals")
       .select("*")
-      .or(`creator_user_id.eq.${auth.user.id},creator_id.eq.${auth.user.id}`)
+      .eq("creator_user_id", auth.user.id)
       .order("created_at", { ascending: false });
     if (error) throw error;
     return NextResponse.json({ proposals: data ?? [] });
@@ -43,7 +43,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Complete the required proposal fields." }, { status: 400 });
     }
     const admin = createAdminClient();
+    const { data: profile } = await admin.from("creator_profiles").select("id").eq("user_id", auth.user.id).maybeSingle();
     const { data, error } = await admin.from("proposals").insert({
+      creator_id: profile?.id || null,
       creator_user_id: auth.user.id,
       title: String(body.title).trim(),
       summary: String(body.summary).trim(),

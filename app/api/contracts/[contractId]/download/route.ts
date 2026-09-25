@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -90,6 +91,8 @@ export async function GET(
         id,
         creator_id,
         creator_user_id,
+        project_id,
+        asset_id,
         project_title,
         contract_number,
         status,
@@ -127,6 +130,15 @@ export async function GET(
       return new Response("Contract not found", {
         status: 404,
       });
+    }
+
+    let reservedAsset: any = null;
+    let projectIndex: any = null;
+    const admin = createAdminClient();
+    if (contract.asset_id) {
+      const { data: a } = await admin.from("asset_registry").select("internal_identifier,index_id,genre,mood").eq("id", contract.asset_id).maybeSingle();
+      reservedAsset = a;
+      if (a?.index_id) { const { data: i } = await admin.from("plekxa_indexes").select("index_code").eq("id", a.index_id).maybeSingle(); projectIndex = i; }
     }
 
     const content: ContractContent =
@@ -311,9 +323,19 @@ export async function GET(
 
     <div>
       <span>Duration</span>
-      <strong>
-        ${escapeHtml(formatDate(contract.end_date))}
-      </strong>
+      <strong>${escapeHtml(formatDate(contract.end_date))}</strong>
+    </div>
+    <div>
+      <span>Reserved Asset ID</span>
+      <strong>${escapeHtml(reservedAsset?.internal_identifier || "To be assigned")}</strong>
+    </div>
+    <div>
+      <span>Plekxa Index</span>
+      <strong>${escapeHtml(projectIndex?.index_code || "To be assigned")}</strong>
+    </div>
+    <div>
+      <span>Genre / mood</span>
+      <strong>${escapeHtml([reservedAsset?.genre,reservedAsset?.mood].filter(Boolean).join(" · ") || "To be confirmed")}</strong>
     </div>
   </div>
 
