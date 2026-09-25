@@ -52,13 +52,8 @@ const navSections = [
         icon: FileText,
       },
       {
-        href: "/pitch",
-        label: "Pitch an idea",
-        icon: Lightbulb,
-      },
-      {
         href: "/proposals",
-        label: "Proposals",
+        label: "Pitches",
         icon: FolderKanban,
       },
     ],
