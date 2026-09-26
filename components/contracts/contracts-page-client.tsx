@@ -85,6 +85,8 @@ export default function ContractsPageClient() {
   const [contracts, setContracts] = useState<CreatorContract[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const loadContracts = useCallback(async () => {
     try {
@@ -118,6 +120,11 @@ export default function ContractsPageClient() {
     void loadContracts();
   }, [loadContracts]);
 
+  const shown = contracts.filter((contract) => {
+    const hay = `${contract.project_title} ${contract.contract_number} ${contract.status}`.toLowerCase();
+    return (!query || hay.includes(query.toLowerCase())) && (statusFilter === "all" || contract.status === statusFilter);
+  });
+
   return (
     <main className={styles.page}>
       <header className={styles.heading}>
@@ -134,6 +141,7 @@ export default function ContractsPageClient() {
       </header>
 
       <section className={styles.panel}>
+        <div style={{display:"flex",gap:10,flexWrap:"wrap",padding:"16px 18px",borderBottom:"1px solid #e7e0d8"}}><input value={query} onChange={(e)=>setQuery(e.target.value)} placeholder="Search project or contract number…" style={{minWidth:280,flex:1,padding:10,border:"1px solid #d8d0c8",borderRadius:10}}/><select value={statusFilter} onChange={(e)=>setStatusFilter(e.target.value)} style={{padding:10,border:"1px solid #d8d0c8",borderRadius:10}}><option value="all">All statuses</option><option value="sent">Awaiting signature</option><option value="creator_signed">Waiting for Plekxa</option><option value="active">Active</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
         {loading ? (
           <div className={styles.empty}>
             <LoaderCircle
@@ -143,7 +151,7 @@ export default function ContractsPageClient() {
 
             <p>Loading contracts...</p>
           </div>
-        ) : contracts.length === 0 ? (
+        ) : shown.length === 0 ? (
           <div className={styles.empty}>
             <div className={styles.emptyIcon}>
               <FileSignature size={30} />
@@ -162,7 +170,7 @@ export default function ContractsPageClient() {
           </div>
         ) : (
           <div className={styles.list}>
-            {contracts.map((contract) => {
+            {shown.map((contract) => {
               const status = statusDetails(contract.status);
 
               return (

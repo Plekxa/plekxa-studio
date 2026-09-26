@@ -145,7 +145,7 @@ export default async function EarningsPage() {
             </div>
           ) : (
             <div className={styles.list}>
-              {earnings.slice(0, 12).map((earning) => (
+              {earnings.map((earning) => (
                 <div key={earning.id} className={styles.listItem}>
                   <div className={styles.listMain}>
                     <div className={styles.listIcon}>
@@ -218,7 +218,7 @@ export default async function EarningsPage() {
             </div>
           ) : (
             <div className={styles.list}>
-              {payouts.slice(0, 8).map((payout) => (
+              {payouts.map((payout) => (
                 <div key={payout.id} className={styles.listItem}>
                   <div className={styles.listMain}>
                     <div className={styles.listIcon}>
