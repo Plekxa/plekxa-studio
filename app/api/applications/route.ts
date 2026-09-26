@@ -146,59 +146,35 @@ export async function POST(request: Request) {
     const { data: portalProfile } = await admin.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
     const applicantName = portalProfile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || null;
     const applicantEmail = user.email || null;
-    const candidates: Record<string, unknown>[] = [
-      {
-        project_id: projectId,
-        creator_user_id: user.id,
-        creator_id: profileId,
-        applicant_name: applicantName,
-        applicant_email: applicantEmail,
-        status: "pending",
-        cover_letter: coverLetter,
-        portfolio_url: portfolioUrl,
-      },
-      {
-        project_id: projectId,
-        creator_user_id: user.id,
-        applicant_name: applicantName,
-        applicant_email: applicantEmail,
-        status: "pending",
-        cover_letter: coverLetter,
-        portfolio_url: portfolioUrl,
-      },
-      {
-        project_id: projectId,
-        creator_id: user.id,
-        applicant_name: applicantName,
-        applicant_email: applicantEmail,
-        status: "pending",
-        cover_letter: coverLetter,
-        portfolio_url: portfolioUrl,
-      },
-    ];
-
-    let application: Record<string, unknown> | null = null;
-    let lastError: unknown = null;
-
-    for (const candidate of candidates) {
-      const payload = Object.fromEntries(Object.entries(candidate).filter(([, value]) => value !== null));
-      const { data, error } = await admin
-        .from("creator_applications")
-        .insert(payload)
-        .select("*")
-        .single();
-
-      if (!error) {
-        application = data;
-        break;
-      }
-      if (error.code === "23505") {
-        return NextResponse.json({ error: "You already have an active application for this project." }, { status: 409 });
-      }
-      lastError = error;
+    if (!profileId) {
+      return NextResponse.json(
+        { error: "Your creator profile is not connected yet. Please complete your creator profile before applying." },
+        { status: 409 }
+      );
     }
 
-    if (!application) throw lastError;
+    // creator_id is always creator_profiles.id. Never fall back to the auth user UUID.
+    const candidate: Record<string, unknown> = {
+      project_id: projectId,
+      creator_user_id: user.id,
+      creator_id: profileId,
+      applicant_name: applicantName,
+      applicant_email: applicantEmail,
+      status: "pending",
+      cover_letter: coverLetter,
+      portfolio_url: portfolioUrl,
+    };
+
+    const payload = Object.fromEntries(Object.entries(candidate).filter(([, value]) => value !== null));
+    const { data: application, error: insertError } = await admin
+      .from("creator_applications")
+      .insert(payload)
+      .select("*")
+      .single();
+    if (insertError?.code === "23505") {
+      return NextResponse.json({ error: "You already have an active application for this project." }, { status: 409 });
+    }
+    if (insertError) throw insertError;
 
     const title = String(project.title || project.name || "this project");
     return NextResponse.json(

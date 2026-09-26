@@ -71,9 +71,11 @@ export default async function ProjectPage({
 
           <h1>{project.title}</h1>
 
-          <p className="creator-project-summary">
-            {project.summary}
-          </p>
+          {project.summary && project.summary.trim().toLowerCase() !== (project.description || "").trim().toLowerCase() ? (
+            <p className="creator-project-summary">
+              {project.summary}
+            </p>
+          ) : null}
 
           {project.description ? (
             <div className="creator-project-description">
