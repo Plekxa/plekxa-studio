@@ -201,6 +201,7 @@ export async function POST(request: Request) {
           party: "creator",
           signature_name: signatureName,
           signature_hash: signatureHash,
+          consent_text: "I have reviewed this contract and agree to be legally bound by its terms.",
           ip_address: ipAddress,
           user_agent: userAgent,
           signed_at: signedAt,
