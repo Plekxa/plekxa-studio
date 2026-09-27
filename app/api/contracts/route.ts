@@ -151,21 +151,109 @@ export async function POST(request: Request) {
 
     const userAgent = request.headers.get("user-agent");
 
-    const { data, error } = await supabase.rpc(
-      "creator_sign_contract",
-      {
-        contract_uuid: contractId,
-        typed_signature: signatureName,
-        signer_ip: ipAddress,
-        signer_user_agent: userAgent,
-      }
-    );
+    // Perform the signing write server-side after verifying ownership. This
+    // avoids the legacy RPC identity drift while preserving the same audit
+    // records and database constraints.
+    const admin = createAdminClient();
 
-    if (error) {
-      throw error;
+    const { data: contract, error: contractError } = await admin
+      .from("contracts")
+      .select("id,status,creator_user_id")
+      .eq("id", contractId)
+      .eq("creator_user_id", user.id)
+      .maybeSingle();
+
+    if (contractError) throw contractError;
+    if (!contract) {
+      return NextResponse.json(
+        { error: "Contract not found or you do not have permission to sign it." },
+        { status: 404 }
+      );
     }
 
-    const admin=createAdminClient();const {data:staff}=await admin.from('staff_members').select('auth_user_id').not('auth_user_id','is',null);if(staff?.length)await admin.from('notifications').insert(staff.map((x:any)=>({recipient_id:x.auth_user_id,audience:'enterprise',type:'contract_signed',title:'Creator signed a contract',message:`Contract ${contractId} has been signed by the creator.`,action_url:'/contracts',entity_type:'contract',entity_id:contractId})));return NextResponse.json({success:true,message:'Your contract has been signed.',result:data});
+    if (contract.status === "creator_signed" || contract.status === "active") {
+      return NextResponse.json({
+        success: true,
+        message: "Your contract has already been signed.",
+        result: { contract_id: contract.id, status: contract.status },
+      });
+    }
+
+    if (contract.status !== "sent" && contract.status !== "draft") {
+      return NextResponse.json(
+        { error: `This contract cannot be signed while its status is ${contract.status}.` },
+        { status: 409 }
+      );
+    }
+
+    const { error: signatureError } = await admin
+      .from("contract_signatures")
+      .upsert(
+        {
+          contract_id: contract.id,
+          signer_id: user.id,
+          party: "creator",
+          signature_name: signatureName,
+          ip_address: ipAddress,
+          user_agent: userAgent,
+          signed_at: new Date().toISOString(),
+        },
+        { onConflict: "contract_id,party" }
+      );
+
+    if (signatureError) throw signatureError;
+
+    const signedAt = new Date().toISOString();
+    const { error: updateError } = await admin
+      .from("contracts")
+      .update({
+        status: "creator_signed",
+        creator_signed_at: signedAt,
+        updated_at: signedAt,
+      })
+      .eq("id", contract.id)
+      .eq("creator_user_id", user.id);
+
+    if (updateError) throw updateError;
+
+    // Audit event is useful but must not make an otherwise valid signature fail.
+    const { error: eventError } = await admin.from("contract_events").insert({
+      contract_id: contract.id,
+      actor_id: user.id,
+      event_type: "creator_signed",
+      description: "Creator signed the contract",
+    });
+    if (eventError) console.error("Contract event insert error:", eventError);
+
+    const { data: staff, error: staffError } = await admin
+      .from("staff_members")
+      .select("auth_user_id")
+      .not("auth_user_id", "is", null);
+
+    if (!staffError && staff?.length) {
+      const { error: notificationError } = await admin
+        .from("notifications")
+        .insert(
+          staff.map((member: { auth_user_id: string }) => ({
+            recipient_id: member.auth_user_id,
+            audience: "enterprise",
+            type: "contract_signed",
+            title: "Creator signed a contract",
+            message: `Contract ${contractId} has been signed by the creator.`,
+            action_url: "/contracts",
+            entity_type: "contract",
+            entity_id: contractId,
+          }))
+        );
+      if (notificationError)
+        console.error("Contract notification error:", notificationError);
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Your contract has been signed.",
+      result: { contract_id: contract.id, status: "creator_signed" },
+    });
   } catch (error) {
     console.error("Contract signing error:", error);
 

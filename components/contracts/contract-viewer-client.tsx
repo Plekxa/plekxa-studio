@@ -236,7 +236,7 @@ export default function ContractViewerClient({
 
             <div>
               <span>End date</span>
-              <strong>{formatDate(contract.end_date)}</strong>
+              <strong>{contract.end_date ? formatDate(contract.end_date) : "Perpetual"}</strong>
             </div>
           </section>
 

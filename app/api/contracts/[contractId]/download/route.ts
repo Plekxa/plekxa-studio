@@ -323,7 +323,7 @@ export async function GET(
 
     <div>
       <span>Duration</span>
-      <strong>${escapeHtml(formatDate(contract.end_date))}</strong>
+      <strong>${escapeHtml(contract.end_date ? formatDate(contract.end_date) : "Perpetual")}</strong>
     </div>
     <div>
       <span>Reserved Asset ID</span>

@@ -1,0 +1,4 @@
+
+/* v2.2.1 responsive hardening */
+@media(max-width:900px){.creator-shell,.dashboard-layout{grid-template-columns:1fr!important}.creator-sidebar{position:relative!important;width:100%!important}.creator-main,.creator-content{padding-left:14px!important;padding-right:14px!important}.projects-grid,.dashboard-grid{grid-template-columns:1fr!important}table{min-width:680px}.table-wrap{overflow-x:auto}}
+@media(max-width:520px){button,.button,input,select,textarea{max-width:100%}.creator-page-heading h1{font-size:28px!important}}

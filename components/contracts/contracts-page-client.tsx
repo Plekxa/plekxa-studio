@@ -221,7 +221,7 @@ export default function ContractsPageClient() {
                         <span>End date</span>
 
                         <strong>
-                          {formatDate(contract.end_date)}
+                          {contract.end_date ? formatDate(contract.end_date) : "Perpetual"}
                         </strong>
                       </div>
                     </div>
