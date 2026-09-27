@@ -10,7 +10,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 type Milestone = {
   id: string;
-  contract_id: string;
+  contract_id: string | null;
   title: string;
   status: string;
   due_date: string | null;
@@ -47,8 +47,10 @@ export default async function ActiveProjectsPage() {
   const admin = createAdminClient();
   const { data: directedProjects } = await admin.from("projects").select("id,title,reserved_asset_code,index_code,status").eq("director_user_id", user.id).order("created_at", {ascending:false});
 
+  // Legacy/accepted workspaces can exist before a contract is attached. Never pass null
+  // into a UUID IN filter; only signed/countersigned workspaces have contract IDs.
   const contractIds =
-    workspaces?.map((workspace) => workspace.contract_id) ?? [];
+    workspaces?.map((workspace) => workspace.contract_id).filter((id): id is string => Boolean(id)) ?? [];
 
   let milestones: Milestone[] = [];
   let milestonesError: { message: string } | null = null;
