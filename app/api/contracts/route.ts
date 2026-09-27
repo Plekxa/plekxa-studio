@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createHash } from "node:crypto";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -186,6 +187,11 @@ export async function POST(request: Request) {
       );
     }
 
+    const signedAt = new Date().toISOString();
+    const signatureHash = createHash("sha256")
+      .update([contract.id, user.id, signatureName, signedAt].join("|"), "utf8")
+      .digest("hex");
+
     const { error: signatureError } = await admin
       .from("contract_signatures")
       .upsert(
@@ -194,16 +200,16 @@ export async function POST(request: Request) {
           signer_id: user.id,
           party: "creator",
           signature_name: signatureName,
+          signature_hash: signatureHash,
           ip_address: ipAddress,
           user_agent: userAgent,
-          signed_at: new Date().toISOString(),
+          signed_at: signedAt,
         },
         { onConflict: "contract_id,party" }
       );
 
     if (signatureError) throw signatureError;
 
-    const signedAt = new Date().toISOString();
     const { error: updateError } = await admin
       .from("contracts")
       .update({
@@ -257,12 +263,22 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Contract signing error:", error);
 
+    const databaseError = error as {
+      message?: string;
+      code?: string;
+      details?: string;
+      hint?: string;
+    };
+
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : "Could not sign the contract.",
+            : databaseError?.message || "Could not sign the contract.",
+        code: databaseError?.code || null,
+        details: databaseError?.details || null,
+        hint: databaseError?.hint || null,
       },
       { status: 500 }
     );
