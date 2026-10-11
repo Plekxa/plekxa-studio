@@ -3427,3 +3427,13 @@ textarea::placeholder {
     color: #f06a86 !important;
   }
 }
+/* Primary navigation is exclusively for phones; retain existing desktop sidebar. */
+.plekxa-mobile-bottom-nav{display:none}
+@media(max-width:700px){
+ .studio-content{padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))!important}
+ .plekxa-mobile-bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:80;background:var(--surface,#fff);border-top:1px solid var(--border,#ddd);box-shadow:0 -3px 18px rgba(0,0,0,.07);padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around;align-items:center}
+ .plekxa-mobile-bottom-nav a,.plekxa-mobile-bottom-nav button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;min-height:48px;color:var(--text-muted,#777);text-decoration:none;background:transparent;border:0;font:inherit;font-size:10px;cursor:pointer}
+ .plekxa-mobile-bottom-nav a[aria-current="page"]{color:var(--accent,#e65372);font-weight:700}
+ .plekxa-mobile-bottom-nav span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+}
+@media print{.plekxa-mobile-bottom-nav{display:none!important}}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { MobileBottomNav } from "./MobileBottomNav";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -45,6 +46,11 @@ const navSections = [
         href: "/projects",
         label: "Browse projects",
         icon: BriefcaseBusiness,
+      },
+      {
+        href: "/creative-commissions",
+        label: "Creative Commissions",
+        icon: FolderKanban,
       },
       {
         href: "/applications",
@@ -204,6 +210,7 @@ export function CreatorSidebar() {
 
   return (
     <>
+      <MobileBottomNav onMore={() => setMobileOpen(true)} />
       <header className="studio-mobile-header">
         <Link href="/dashboard">
           <strong>Plekxa</strong>

@@ -1,67 +1,8 @@
 "use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Compass,
-  Home,
-  Library,
-  Search,
-  UserRound,
-} from "lucide-react";
-
-const links = [
-  {
-    href: "/browse",
-    icon: Home,
-    label: "Home",
-  },
-  {
-    href: "/explore",
-    icon: Compass,
-    label: "Explore",
-  },
-  {
-    href: "/search",
-    icon: Search,
-    label: "Search",
-  },
-  {
-    href: "/library",
-    icon: Library,
-    label: "Library",
-  },
-  {
-    href: "/account",
-    icon: UserRound,
-    label: "Profile",
-  },
-];
-
-export default function MobileBottomNav() {
-  const pathname = usePathname();
-
-  return (
-    <nav
-      className="mobile-bottom-nav"
-      aria-label="Listener mobile navigation"
-    >
-      {links.map(({ href, icon: Icon, label }) => {
-        const isActive =
-          pathname === href ||
-          (href !== "/browse" && pathname.startsWith(`${href}/`));
-
-        return (
-          <Link
-            href={href}
-            key={href}
-            className={isActive ? "active" : ""}
-          >
-            <Icon size={20} />
-            <span>{label}</span>
-          </Link>
-        );
-      })}
-    </nav>
-  );
+import {usePathname} from "next/navigation";
+import {House,Compass,FolderKanban,Bell,Wallet,Menu} from "lucide-react";
+const items=[{href:"/dashboard",label:"Home",icon:House},{href:"/creative-commissions",label:"Explore",icon:Compass},{href:"/active-projects",label:"Work",icon:FolderKanban},{href:"/notifications",label:"Inbox",icon:Bell},{href:"/earnings",label:"Earnings",icon:Wallet}];
+export function MobileBottomNav({onMore}:{onMore:()=>void}){
+ const path=usePathname();return <nav className="plekxa-mobile-bottom-nav" aria-label="Mobile primary navigation">{items.map(({href,label,icon:Icon})=><Link key={href} href={href} aria-current={path===href||path.startsWith(href+"/")?"page":undefined}><Icon size={21}/><span>{label}</span></Link>)}<button type="button" onClick={onMore} aria-label="Open full menu"><Menu size={21}/><span>More</span></button></nav>;
 }
